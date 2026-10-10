@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews & Ratings | SkillSwap</title>
+
+    <!-- Shared and page-specific styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/reviews.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <a href="dashboard.html" class="logo">
+            <span class="logo-word">SkillSwap</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="skills.html">My Skills</a>
+            <a href="search.html">Explore</a>
+            <a href="requests.html">Requests</a>
+            <a href="sessions.html">Sessions</a>
+            <a href="transactions.html">Credits</a>
+            <a href="reviews.html" class="active">Reviews</a>
+        </nav>
+
+        <div class="nav-actions">
+            <button id="themeToggle" class="theme-toggle"
+                    type="button" aria-label="Switch theme">☾</button>
+            <a href="profile.html" class="btn btn-outline">My Profile</a>
+        </div>
+    </header>
+
+    <main class="reviews-container">
+
+        <!-- Page introduction -->
+        <section class="reviews-hero">
+            <div>
+                <span class="section-label">COMMUNITY APPRECIATION</span>
+                <h1>Good skills deserve <span class="gradient-text">good reviews.</span></h1>
+                <p>Celebrate great learning experiences and help others find their perfect skill-sharing partner.</p>
+            </div>
+
+            <div class="reviews-hero-icon" aria-hidden="true">⭐</div>
+        </section>
+
+        <!-- Rating summary -->
+        <section class="review-stats">
+            <article class="review-stat-card">
+                <span class="review-stat-icon">⭐</span>
+                <div>
+                    <p>Average rating</p>
+                    <h2 id="averageRating">0.0</h2>
+                    <div id="averageStars" class="stars">☆☆☆☆☆</div>
+                </div>
+            </article>
+
+            <article class="review-stat-card">
+                <span class="review-stat-icon">💬</span>
+                <div>
+                    <p>Total reviews</p>
+                    <h2 id="totalReviews">0</h2>
+                    <span class="stat-subtitle">Experiences shared</span>
+                </div>
+            </article>
+
+            <article class="review-stat-card">
+                <span class="review-stat-icon">🤝</span>
+                <div>
+                    <p>Community spirit</p>
+                    <h2>100%</h2>
+                    <span class="stat-subtitle">Built on sharing</span>
+                </div>
+            </article>
+        </section>
+
+        <!-- Submit a review -->
+        <section class="review-form-card">
+            <div class="section-heading">
+                <div>
+                    <span class="section-label">SHARE YOUR EXPERIENCE</span>
+                    <h2>Leave a review</h2>
+                    <p>Tell the community how your session went.</p>
+                </div>
+                <span class="form-icon">💜</span>
+            </div>
+
+            <form id="reviewForm" class="review-form">
+
+                <div class="form-group">
+                    <label for="reviewPartner">Learning partner</label>
+                    <input type="text" id="reviewPartner"
+                           placeholder="Enter your partner's name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="reviewSkill">Skill exchanged</label>
+                    <input type="text" id="reviewSkill"
+                           placeholder="e.g. Java, Photography" required>
+                </div>
+
+                <div class="form-group rating-group">
+                    <label>How was your experience?</label>
+
+                    <div class="rating-picker" role="group"
+                         aria-label="Choose a rating from one to five stars">
+                        <button type="button" class="rating-star" data-rating="1"
+                                aria-label="1 star" aria-pressed="false">★</button>
+                        <button type="button" class="rating-star" data-rating="2"
+                                aria-label="2 stars" aria-pressed="false">★</button>
+                        <button type="button" class="rating-star" data-rating="3"
+                                aria-label="3 stars" aria-pressed="false">★</button>
+                        <button type="button" class="rating-star" data-rating="4"
+                                aria-label="4 stars" aria-pressed="false">★</button>
+                        <button type="button" class="rating-star" data-rating="5"
+                                aria-label="5 stars" aria-pressed="false">★</button>
+                    </div>
+
+                    <p id="ratingHint" class="rating-hint">Select a star rating</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="reviewComment">Your feedback</label>
+                    <textarea id="reviewComment" rows="4"
+                              maxlength="500"
+                              placeholder="What did you enjoy or learn?"></textarea>
+                </div>
+
+                <p id="reviewMessage" class="form-message"
+                   aria-live="polite"></p>
+
+                <button type="submit" class="btn submit-review-button">
+                    Submit Review ✨
+                </button>
+            </form>
+        </section>
+
+        <!-- Review list -->
+        <section class="reviews-list-section">
+            <div class="section-heading reviews-list-heading">
+                <div>
+                    <span class="section-label">KIND WORDS</span>
+                    <h2>Community reviews</h2>
+                </div>
+
+                <select id="reviewFilter" aria-label="Filter reviews">
+                    <option value="All">All ratings</option>
+                    <option value="5">5 stars</option>
+                    <option value="4">4 stars</option>
+                    <option value="3">3 stars</option>
+                    <option value="2">2 stars</option>
+                    <option value="1">1 star</option>
+                </select>
+            </div>
+
+            <div id="reviewsList" class="reviews-list"></div>
+
+            <div id="emptyReviews" class="empty-reviews" hidden>
+                <span>💌</span>
+                <h3>No reviews yet</h3>
+                <p>Be the first to share feedback with the community.</p>
+            </div>
+        </section>
+
+        <!-- Community reminder -->
+        <aside class="review-tip">
+            <span>🌱</span>
+            <div>
+                <h3>Keep it kind and helpful</h3>
+                <p>Give honest, respectful feedback. In the final app, reviews should be linked to completed sessions so everyone can trust the feedback.</p>
+            </div>
+        </aside>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Made with 💜 by SkillSwap · Learn together, grow together.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/reviews.js"></script>
+</body>
+</html>
+
