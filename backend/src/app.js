@@ -2,6 +2,7 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
+const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
@@ -51,6 +52,16 @@ app.use('/api', (req, res, next) => {
     return next();
   }
   return next();
+});
+
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'SkillSwap backend is running',
+    database: {
+      status: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+    },
+  });
 });
 
 app.get('/health', (req, res) => {

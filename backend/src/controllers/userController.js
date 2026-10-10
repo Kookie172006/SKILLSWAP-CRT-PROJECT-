@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const { allowedProfileFields } = require('../validators/userValidators');
 
 const sanitizeUser = (user) => {
   const userObj = user.toObject ? user.toObject() : { ...user };
@@ -30,32 +31,33 @@ const getUserProfile = async (req, res, next) => {
 
 const updateUserProfile = async (req, res, next) => {
   try {
-    const user = await User.findById(req.userId);
+    const targetUserId = req.params.id || req.userId;
 
-    if (!user) {
+    if (String(targetUserId) !== String(req.userId)) {
+      return res.status(403).json({
+        success: false,
+        message: 'You can only update your own profile',
+      });
+    }
+
+    const updates = Object.fromEntries(
+      allowedProfileFields
+        .filter((field) => Object.prototype.hasOwnProperty.call(req.body, field))
+        .map((field) => [field, req.body[field]])
+    );
+
+    const updatedUser = await User.findByIdAndUpdate(
+      targetUserId,
+      { $set: updates },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) {
       return res.status(404).json({
         success: false,
         message: 'User profile not found',
       });
     }
-
-    const updates = { ...req.body };
-
-    const protectedFields = ['credits', 'role', 'email', 'passwordHash', 'isEmailVerified'];
-    const forbiddenKeys = Object.keys(updates).filter((key) => protectedFields.includes(key));
-
-    if (forbiddenKeys.length > 0) {
-      return res.status(400).json({
-        success: false,
-        message: `Protected fields cannot be updated: ${forbiddenKeys.join(', ')}`,
-      });
-    }
-
-    Object.keys(updates).forEach((key) => {
-      user[key] = updates[key];
-    });
-
-    const updatedUser = await user.save();
 
     return res.status(200).json({
       success: true,

@@ -82,6 +82,65 @@ describe('User profile API', () => {
     expect(response.body.data.user.passwordHash).toBeUndefined();
   });
 
+  it('updates only the authenticated user through the id route and returns the saved document', async () => {
+    const user = await User.create({
+      name: 'Route User',
+      email: 'route@example.com',
+      passwordHash: await bcrypt.hash('StrongPass123!', 12),
+      bio: 'Old bio',
+      teachingSkills: ['JavaScript'],
+      learningSkills: ['Python'],
+      credits: 5,
+      role: 'user',
+    });
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+
+    const response = await request(app)
+      .put(`/api/users/${user._id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        bio: 'Updated bio',
+        teachingSkills: ['Node.js'],
+        learningSkills: ['React'],
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.data.user.bio).toBe('Updated bio');
+    expect(response.body.data.user.teachingSkills).toEqual(['Node.js']);
+    expect(response.body.data.user.learningSkills).toEqual(['React']);
+
+    const savedUser = await User.findById(user._id);
+    expect(savedUser.bio).toBe('Updated bio');
+    expect(savedUser.teachingSkills).toEqual(['Node.js']);
+    expect(savedUser.learningSkills).toEqual(['React']);
+    expect(savedUser.credits).toBe(5);
+    expect(savedUser.role).toBe('user');
+  });
+
+  it('does not allow updating another user through the id route', async () => {
+    const user = await User.create({
+      name: 'Authenticated User',
+      email: 'authenticated@example.com',
+      passwordHash: await bcrypt.hash('StrongPass123!', 12),
+    });
+    const otherUser = await User.create({
+      name: 'Other User',
+      email: 'other@example.com',
+      passwordHash: await bcrypt.hash('StrongPass123!', 12),
+      bio: 'Original bio',
+    });
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+
+    const response = await request(app)
+      .put(`/api/users/${otherUser._id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ bio: 'Changed bio' });
+
+    expect(response.status).toBe(403);
+    expect(response.body.success).toBe(false);
+    expect((await User.findById(otherUser._id)).bio).toBe('Original bio');
+  });
+
   it('rejects protected field updates', async () => {
     const user = await User.create({
       name: 'Protected User',
