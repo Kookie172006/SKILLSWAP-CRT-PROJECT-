@@ -52,4 +52,4 @@ const updateUserValidation = [
   }),
 ];
 
-module.exports = { updateUserValidation };
+module.exports = { allowedProfileFields, updateUserValidation };
