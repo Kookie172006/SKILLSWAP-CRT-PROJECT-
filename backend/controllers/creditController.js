@@ -1,18 +1,23 @@
+
+const User = require("../src/models/User");
 const Transaction = require("../models/Transaction");
 
-// View a user's credit balance
+// View a user's actual credit balance
 exports.getBalance = async (req, res) => {
   try {
     const { userId } = req.params;
 
-    const result = await Transaction.aggregate([
-      { $match: { userId } },
-      { $group: { _id: null, balance: { $sum: "$amount" } } },
-    ]);
+    const user = await User.findById(userId).select("credits");
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
 
     res.json({
       userId,
-      balance: result.length ? result[0].balance : 0,
+      balance: user.credits,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
