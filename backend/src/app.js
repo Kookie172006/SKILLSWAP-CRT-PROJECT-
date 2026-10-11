@@ -1,3 +1,8 @@
+//member 3
+const skillRoutes = require('../routes/skillRoutes');
+const swapRoutes = require('../routes/swapRoutes');
+const creditRoutes = require('../routes/creditRoutes');
+
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -64,12 +69,31 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+
 app.get('/health', (req, res) => {
-  res.status(200).json({ success: true, message: 'Server is healthy' });
+  res.status(200).json({
+    success: true,
+    message: 'Server is healthy'
+  });
 });
+
+
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'SkillSwap API is running!'
+  });
+});
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
+
+//member 3
+app.use('/api/skills', skillRoutes);
+app.use('/api/swaps', swapRoutes);
+app.use('/api/credits', creditRoutes);
+
 
 app.use(notFound);
 app.use(errorHandler);
