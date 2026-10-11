@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ===== PAGE SETTINGS ===== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | SkillSwap</title>
+
+    <!-- ===== SHARED WEBSITE STYLES ===== -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+
+    <!-- ===== REGISTRATION JAVASCRIPT ===== -->
+    <script src="js/auth.js" defer></script>
+</head>
+
+<body class="auth-page">
+
+    <!-- ===== HEADER ===== -->
+    <header class="auth-header">
+        <a href="index.html" class="logo">
+            <img src="images/icon.png" alt="SkillSwap logo" class="logo-image logo-image-navbar">
+            <span class="logo-word">Skill<span>Swap</span></span>
+        </a>
+
+        <a href="login.html" class="auth-header-link">
+            Already have an account?
+            <strong>Log in</strong>
+        </a>
+    </header>
+
+
+    <!-- ===== MAIN REGISTRATION CONTENT ===== -->
+    <main class="auth-layout register-layout">
+
+        <!-- ===== LEFT WELCOME SECTION ===== -->
+        <section class="auth-welcome register-welcome">
+
+            <p class="section-label">YOUR JOURNEY STARTS HERE</p>
+
+            <h1>
+                Learn more.
+                <span class="gradient-text">Share more.</span>
+                Become more.
+            </h1>
+
+            <p>
+                Join a community where everyone has something to teach
+                and something new to discover.
+            </p>
+
+            <!-- Welcome credit card -->
+            <div class="credits-welcome-card">
+                <div class="credits-icon">🎁</div>
+
+                <div>
+                    <p class="credits-label">A LITTLE WELCOME GIFT</p>
+                    <h2>+5 Skill Credits</h2>
+                    <p>Start your SkillSwap journey with bonus credits.</p>
+                </div>
+            </div>
+
+            <!-- Benefits of joining -->
+            <div class="register-benefits">
+                <p><span>✓</span> Share skills you already know</p>
+                <p><span>✓</span> Discover people with new skills</p>
+                <p><span>✓</span> Learn through skill exchanges</p>
+            </div>
+
+        </section>
+
+
+        <!-- ===== REGISTRATION FORM CARD ===== -->
+        <section class="auth-card register-card">
+
+            <div class="auth-card-heading">
+                <h2>Create your account</h2>
+                <p>Just a few details and you're ready to grow.</p>
+            </div>
+
+            <form id="registerForm">
+
+                <!-- Full name -->
+                <div class="form-group">
+                    <label for="name">Full name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        minlength="2"
+                        maxlength="60"
+                        required>
+                </div>
+
+                <!-- Email address -->
+                <div class="form-group">
+                    <label for="registerEmail">Email address</label>
+                    <input
+                        type="email"
+                        id="registerEmail"
+                        name="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required>
+                </div>
+
+                <!-- Create password -->
+                <div class="form-group">
+                    <label for="registerPassword">Create password</label>
+                    <input
+                        type="password"
+                        id="registerPassword"
+                        name="password"
+                        placeholder="At least 8 characters"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required>
+                </div>
+
+                <!-- Confirm password -->
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm password</label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        placeholder="Enter your password again"
+                        autocomplete="new-password"
+                        minlength="8"
+                        required>
+                </div>
+
+                <!-- Show or hide both passwords -->
+                <label class="show-password">
+                    <input type="checkbox" id="showRegisterPassword">
+                    Show passwords
+                </label>
+
+                <!-- Form success and error messages -->
+                <p
+                    id="registerMessage"
+                    class="form-message"
+                    role="status"
+                    aria-live="polite">
+                </p>
+
+                <!-- Create account button -->
+                <button type="submit" class="btn auth-submit">
+                    Create account ↗
+                </button>
+
+            </form>
+
+            <!-- Link to login -->
+            <p class="auth-switch">
+                Already part of SkillSwap?
+                <a href="login.html">Log in</a>
+            </p>
+
+            <!-- Return home -->
+            <a href="index.html" class="back-home">
+                ← Back to home
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="auth-footer">
+        Teach what you know. Learn what you need.
+    </footer>
+
+</body>
+</html>

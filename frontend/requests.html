@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swap Requests | SkillSwap</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/requests.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <img src="images/icon.png" alt="SkillSwap logo" class="logo-image logo-image-navbar">
+            <span class="logo-word">SkillSwap</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="skills.html">My Skills</a>
+            <a href="search.html">Explore</a>
+            <a href="requests.html" class="active">Requests</a>
+        </div>
+
+        <div class="nav-actions">
+            <button class="theme-toggle" id="themeToggle" aria-label="Switch theme">☾</button>
+            <a href="profile.html" class="btn btn-outline">My Profile</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="requests-page">
+
+        <!-- Page Heading -->
+        <section class="requests-hero">
+            <p class="section-label">MAKE THE CONNECTION</p>
+            <h1>Swap requests, <span class="gradient-text">coming right up.</span></h1>
+            <p>Every request is a chance to share something you know and learn something new.</p>
+        </section>
+
+        <!-- Request Statistics -->
+        <section class="request-stats">
+            <div class="request-stat-card">
+                <span>📥</span>
+                <div>
+                    <h2 id="incomingCount">0</h2>
+                    <p>Incoming</p>
+                </div>
+            </div>
+
+            <div class="request-stat-card">
+                <span>📤</span>
+                <div>
+                    <h2 id="outgoingCount">0</h2>
+                    <p>Outgoing</p>
+                </div>
+            </div>
+
+            <div class="request-stat-card">
+                <span>⏳</span>
+                <div>
+                    <h2 id="pendingCount">0</h2>
+                    <p>Pending</p>
+                </div>
+            </div>
+
+            <div class="request-stat-card">
+                <span>🤝</span>
+                <div>
+                    <h2 id="acceptedCount">0</h2>
+                    <p>Accepted</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Request Tabs -->
+        <section class="requests-content">
+
+            <div class="requests-toolbar">
+                <div class="request-tabs">
+                    <button class="request-tab active" data-tab="all">All requests</button>
+                    <button class="request-tab" data-tab="incoming">Incoming</button>
+                    <button class="request-tab" data-tab="outgoing">Outgoing</button>
+                </div>
+
+                <select id="statusFilter" aria-label="Filter by request status">
+                    <option value="all">All statuses</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Accepted">Accepted</option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+            </div>
+
+            <!-- Requests are added here by JavaScript -->
+            <div class="requests-list" id="requestsList"></div>
+
+            <!-- Empty State -->
+            <div class="requests-empty" id="requestsEmpty" hidden>
+                <span>💌</span>
+                <h2>No requests here yet</h2>
+                <p>Explore skills and send your first swap request to get things started!</p>
+                <a href="search.html" class="btn btn-primary">Explore skills →</a>
+            </div>
+
+        </section>
+
+        <!-- Helpful Information -->
+        <section class="request-info">
+            <span>💜</span>
+            <div>
+                <h3>How SkillSwap requests work</h3>
+                <p>Send a request to connect with a skill teacher. Once accepted, you can arrange a session. Skill credits should only be exchanged when the agreed session is completed.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Made with 💜 for curious minds · SkillSwap</p>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="js/main.js"></script>
+    <script src="js/requests.js"></script>
+</body>
+</html>
