@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Page settings -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | SkillSwap</title>
+
+    <!-- Reuse the main website stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Login page styles -->
+    <link rel="stylesheet" href="css/auth.css">
+
+    <!-- Login page JavaScript -->
+    <script src="js/auth.js" defer></script>
+</head>
+
+<body class="auth-page">
+
+    <!-- Header with the SkillSwap brand -->
+    <header class="auth-header">
+        <a href="index.html" class="logo">
+            <img src="images/icon.png" alt="SkillSwap logo" class="logo-image logo-image-navbar">
+            <span class="logo-word">Skill<span>Swap</span></span>
+        </a>
+
+        <a href="register.html" class="auth-header-link">
+            Don't have an account? <strong>Sign up</strong>
+        </a>
+    </header>
+
+    <!-- Main login area -->
+    <main class="auth-layout">
+
+        <!-- Left side: welcome message -->
+        <section class="auth-welcome">
+            <p class="section-label">WELCOME BACK</p>
+
+            <h1>
+                Your next skill
+                <span class="gradient-text">starts here.</span>
+            </h1>
+
+            <p>
+                Pick up where you left off. Connect with people,
+                exchange knowledge, and keep growing.
+            </p>
+
+            <div class="auth-tip">
+                <span>💡</span>
+                <div>
+                    <strong>Learning goes both ways.</strong>
+                    <p>Every person you meet knows something you don't.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right side: login form -->
+        <section class="auth-card">
+            <div class="auth-card-heading">
+                <h2>Welcome back!</h2>
+                <p>Enter your details to sign in.</p>
+            </div>
+
+            <form id="loginForm">
+
+                <!-- Email input -->
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required>
+                </div>
+
+                <!-- Password input -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                        minlength="8">
+                </div>
+
+                <!-- Show or hide the password -->
+                <label class="show-password">
+                    <input type="checkbox" id="showPassword">
+                    Show password
+                </label>
+
+                <!-- Form feedback message -->
+                <p id="formMessage" class="form-message" role="status"></p>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn auth-submit">
+                    Log in ↗
+                </button>
+
+            </form>
+
+            <!-- Link to registration -->
+            <p class="auth-switch">
+                New to SkillSwap?
+                <a href="register.html">Create an account</a>
+            </p>
+
+            <!-- Return to the homepage -->
+            <a href="index.html" class="back-home">← Back to home</a>
+        </section>
+    </main>
+
+    <!-- Simple footer -->
+    <footer class="auth-footer">
+        Teach what you know. Learn what you need.
+    </footer>
+
+</body>
+</html>

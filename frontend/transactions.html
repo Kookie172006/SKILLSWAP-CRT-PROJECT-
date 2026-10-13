@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions | SkillSwap</title>
+
+    <!-- Shared and page-specific styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/transactions.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <a href="dashboard.html" class="logo">
+            <img src="images/icon.png" alt="SkillSwap logo" class="logo-image logo-image-navbar">
+            <span class="logo-word">SkillSwap</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="skills.html">My Skills</a>
+            <a href="search.html">Explore</a>
+            <a href="requests.html">Requests</a>
+            <a href="sessions.html">Sessions</a>
+            <a href="transactions.html" class="active">Credits</a>
+        </nav>
+
+        <div class="nav-actions">
+            <button id="themeToggle" class="theme-toggle"
+                    type="button" aria-label="Switch theme">☾</button>
+            <a href="profile.html" class="btn btn-outline">My Profile</a>
+        </div>
+    </header>
+
+    <main class="transactions-container">
+
+        <!-- Page heading -->
+        <section class="transactions-hero">
+            <div>
+                <span class="section-label">YOUR SKILL ECONOMY</span>
+                <h1>Every skill has <span class="gradient-text">value.</span></h1>
+                <p>Track your Skill Credits and see how your learning journey grows.</p>
+            </div>
+
+            <div class="credit-hero-icon" aria-hidden="true">💎</div>
+        </section>
+
+        <!-- Credit summary -->
+        <section class="credit-summary">
+            <article class="credit-balance-card">
+                <div class="balance-top">
+                    <span>Available Skill Credits</span>
+                    <span class="balance-icon">✦</span>
+                </div>
+
+                <h2 id="currentBalance">5</h2>
+                <p>Your starting bonus helps you begin your SkillSwap journey.</p>
+                <span class="credit-note">✨ Learn more. Share more.</span>
+            </article>
+
+            <article class="credit-stat-card">
+                <span class="credit-stat-icon earned-icon">↗</span>
+                <p>Total credits earned</p>
+                <h2 id="totalEarned">0</h2>
+                <span>From sharing your skills</span>
+            </article>
+
+            <article class="credit-stat-card">
+                <span class="credit-stat-icon spent-icon">↘</span>
+                <p>Total credits spent</p>
+                <h2 id="totalSpent">0</h2>
+                <span>From learning new skills</span>
+            </article>
+        </section>
+
+        <!-- Transaction history -->
+        <section class="transaction-history">
+            <div class="history-heading">
+                <div>
+                    <span class="section-label">CREDIT ACTIVITY</span>
+                    <h2>Transaction history</h2>
+                    <p>Every credit movement, all in one place.</p>
+                </div>
+
+                <select id="transactionFilter" aria-label="Filter transactions">
+                    <option value="All">All activity</option>
+                    <option value="Earned">Credits earned</option>
+                    <option value="Spent">Credits spent</option>
+                    <option value="Bonus">Bonus credits</option>
+                </select>
+            </div>
+
+            <div class="transaction-table-wrap">
+                <table class="transaction-table">
+                    <thead>
+                        <tr>
+                            <th>Activity</th>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Credits</th>
+                            <th>Balance after</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="transactionList"></tbody>
+                </table>
+            </div>
+
+            <div id="emptyTransactions" class="empty-transactions" hidden>
+                <span>🪙</span>
+                <h3>No transactions found</h3>
+                <p>Your credit activity will appear here.</p>
+            </div>
+        </section>
+
+        <!-- How credits work -->
+        <section class="credit-guide">
+            <div class="guide-icon">💜</div>
+            <div>
+                <h3>How Skill Credits work</h3>
+                <p>New users start with 5 bonus credits. In the planned system,
+                completing a teaching session earns 1 credit, while learning
+                through a completed session costs 1 credit. The backend will
+                verify sessions and update balances securely.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Made with 💜 by SkillSwap · Skills are better when shared.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/transactions.js"></script>
+</body>
+</html>
+

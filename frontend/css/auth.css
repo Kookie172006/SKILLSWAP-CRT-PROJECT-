@@ -1,0 +1,360 @@
+
+/* ===== LOGIN AND REGISTRATION PAGE BASE ===== */
+
+.auth-page {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 10% 15%, rgba(142, 91, 245, 0.10), transparent 32%),
+        var(--bg);
+}
+
+/* Header */
+.auth-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 8%;
+    border-bottom: 1px solid var(--border);
+}
+
+.auth-header-link {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.auth-header-link strong {
+    color: var(--primary);
+    margin-left: 4px;
+}
+
+/* Two-column layout */
+.auth-layout {
+    width: min(1050px, 88%);
+    min-height: calc(100vh - 150px);
+    margin: auto;
+    padding: 55px 0;
+    display: grid;
+    grid-template-columns: 1fr 0.85fr;
+    align-items: center;
+    gap: 65px;
+}
+
+/* Welcome text */
+.auth-welcome h1 {
+    margin-top: 18px;
+    font-size: clamp(38px, 5vw, 57px);
+    line-height: 1.12;
+    letter-spacing: -2px;
+}
+
+.auth-welcome h1 span {
+    display: block;
+}
+
+.auth-welcome > p:not(.section-label) {
+    margin-top: 22px;
+    max-width: 440px;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+/* Tip panel */
+.auth-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-top: 35px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+}
+
+.auth-tip > span {
+    font-size: 25px;
+}
+
+.auth-tip strong {
+    font-size: 14px;
+}
+
+.auth-tip p {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* Login form card */
+.auth-card {
+    padding: 35px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 23px;
+    box-shadow: var(--shadow);
+}
+
+.auth-card-heading h2 {
+    font-size: 27px;
+    letter-spacing: -0.8px;
+}
+
+.auth-card-heading p {
+    margin-top: 9px;
+    margin-bottom: 28px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* Form fields */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-bottom: 21px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    outline: none;
+    background: var(--bg);
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(117, 71, 239, 0.12);
+}
+
+/* Show-password checkbox */
+.show-password {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.show-password input {
+    accent-color: var(--primary);
+}
+
+/* Form feedback */
+.form-message {
+    min-height: 20px;
+    margin-top: 13px;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.form-message.error {
+    color: #d94b62;
+}
+
+.form-message.success {
+    color: #23976b;
+}
+
+/* Submit button */
+.auth-submit {
+    width: 100%;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+/* Footer links */
+.auth-switch {
+    margin-top: 25px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.auth-switch a {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.back-home {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.back-home:hover {
+    color: var(--primary);
+}
+
+.auth-footer {
+    padding: 20px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* Mobile layout */
+@media (max-width: 760px) {
+    .auth-header {
+        padding: 20px 6%;
+        gap: 15px;
+    }
+
+    .auth-header-link {
+        font-size: 11px;
+    }
+
+    .auth-layout {
+        grid-template-columns: 1fr;
+        gap: 35px;
+        padding: 40px 0;
+    }
+
+    .auth-welcome h1 {
+        font-size: 40px;
+    }
+
+    .auth-card {
+        padding: 26px 22px;
+    }
+}
+
+
+
+
+/* =========================================
+   REGISTRATION PAGE
+========================================= */
+
+/* Give the registration layout a little more room */
+.register-layout {
+    width: min(1120px, 90%);
+    gap: 55px;
+}
+
+/* Registration welcome heading */
+.register-welcome h1 {
+    max-width: 520px;
+}
+
+/* Welcome gift card for Skill Credits */
+.credits-welcome-card {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    max-width: 440px;
+    margin-top: 30px;
+    padding: 21px;
+    border: 1px solid rgba(133, 91, 222, 0.2);
+    border-radius: 18px;
+    background: linear-gradient(
+        120deg,
+        rgba(135, 91, 245, 0.12),
+        rgba(224, 106, 199, 0.12)
+    );
+}
+
+/* Gift icon */
+.credits-icon {
+    width: 54px;
+    height: 54px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+    background: var(--surface);
+    font-size: 28px;
+}
+
+/* Gift card text */
+.credits-label {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+    color: var(--primary);
+}
+
+.credits-welcome-card h2 {
+    margin-top: 6px;
+    font-size: 22px;
+}
+
+.credits-welcome-card p:last-child {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+/* Benefits list */
+.register-benefits {
+    display: grid;
+    gap: 13px;
+    margin-top: 25px;
+}
+
+.register-benefits p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.register-benefits span {
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(70, 201, 155, 0.15);
+    color: #23976b;
+    font-weight: 800;
+}
+
+/* Registration card spacing */
+.register-card {
+    padding: 32px;
+}
+
+/* Slightly tighter fields for the longer form */
+.register-card .auth-card-heading p {
+    margin-bottom: 24px;
+}
+
+.register-card .form-group {
+    margin-bottom: 17px;
+}
+
+/* Tablet and mobile layout */
+@media (max-width: 760px) {
+    .register-layout {
+        gap: 32px;
+    }
+
+    .register-welcome h1 {
+        font-size: 39px;
+    }
+
+    .register-card {
+        padding: 25px 21px;
+    }
+
+    .credits-welcome-card {
+        max-width: 100%;
+    }
+}
