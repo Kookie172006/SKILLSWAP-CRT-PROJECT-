@@ -3,6 +3,12 @@ const skillRoutes = require('../routes/skillRoutes');
 const swapRoutes = require('../routes/swapRoutes');
 const creditRoutes = require('../routes/creditRoutes');
 
+//member4 
+const messageRoutes = require('../routes/messageRoutes');
+const sessionRoutes = require('../routes/sessionRoutes');
+const reviewRoutes = require('../routes/reviewRoutes');
+
+
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -94,8 +100,14 @@ app.use('/api/skills', skillRoutes);
 app.use('/api/swaps', swapRoutes);
 app.use('/api/credits', creditRoutes);
 
+//member4
+app.use('/api/messages', messageRoutes);
+app.use('/api/sessions', sessionRoutes);
+app.use('/api/reviews', reviewRoutes);
+
 
 app.use(notFound);
 app.use(errorHandler);
 
 module.exports = app;
+
