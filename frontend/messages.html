@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages | SkillSwap</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/messages.css">
+</head>
+<body class="bg-light-purple">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <img src="images/icon.png" alt="SkillSwap logo" class="logo-image logo-image-navbar">
+            <span class="logo-word">SkillSwap</span>
+        </a>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="skills.html">My Skills</a>
+            <a href="search.html">Explore</a>
+            <a href="requests.html">Requests</a>
+        </div>
+        <div class="nav-actions">
+            <a href="profile.html" class="btn btn-outline">My Profile</a>
+        </div>
+    </nav>
+
+    <!-- Chat Interface -->
+    <main class="chat-container">
+        <div class="chat-wrapper">
+            
+            <!-- Left Sidebar: Conversations -->
+            <aside class="chat-sidebar">
+                <div class="sidebar-header">
+                    <h2>Messages</h2>
+                    <span id="chatCount">0 chats</span>
+                </div>
+                <div class="search-bar">
+                    <input type="text" id="chatSearch" placeholder="🔍 Find a conversation...">
+                </div>
+                <div class="conversation-list" id="conversationList">
+                    <!-- Conversations loaded here dynamically -->
+                </div>
+            </aside>
+
+            <!-- Right Panel: Chat Area -->
+            <section class="chat-main">
+                
+                <!-- Empty State (Shown when no chat is selected) -->
+                <div class="chat-empty-state" id="emptyChatState">
+                    <div class="empty-icon">💌</div>
+                    <h2>Your next great conversation<br>starts here.</h2>
+                    <p>Select a conversation from the left to start chatting.</p>
+                </div>
+
+                <!-- Active Chat State (Hidden by default) -->
+                <div class="chat-active-state" id="activeChatState" hidden>
+                    
+                    <!-- Chat Header -->
+                    <header class="chat-header">
+                        <div class="chat-user-info">
+                            <div class="avatar" id="activeAvatar">U</div>
+                            <div class="details">
+                                <h3 id="activeName">User Name</h3>
+                                <p id="activeSkill">Skill exchange</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline btn-small" id="scheduleBtn">📅 Schedule Session</button>
+                    </header>
+
+                    <!-- Messages Window -->
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- Message bubbles loaded here -->
+                    </div>
+
+                    <!-- Input Area -->
+                    <div class="chat-input-area">
+                        <input type="text" id="messageInput" placeholder="Write a message..." autocomplete="off">
+                        <button id="sendBtn" class="send-btn" aria-label="Send message">
+                            <svg viewBox="0 0 24 24" width="24" height="24" fill="white">
+                                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+            </section>
+        </div>
+    </main>
+
+    <script src="js/messages.js?v=2"></script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages | SkillSwap</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/messages.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <img src="images/icon.png" alt="SkillSwap logo" class="logo-image logo-image-navbar">
+            <span class="logo-word">SkillSwap</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="skills.html">My Skills</a>
+            <a href="search.html">Explore</a>
+            <a href="requests.html">Requests</a>
+        </div>
+
+        <div class="nav-actions">
+            <button class="theme-toggle" id="themeToggle" aria-label="Switch theme">☾</button>
+            <a href="profile.html" class="btn btn-outline">My Profile</a>
+        </div>
+    </nav>
+
+    <!-- Main Messages Page -->
+    <main class="messages-page">
+
+        <!-- Page Heading -->
+        <section class="messages-heading">
+            <div>
+                <p class="section-label">YOUR SKILLS, YOUR PEOPLE</p>
+                <h1>Let's <span class="gradient-text">talk skills.</span></h1>
+                <p>Share ideas, ask questions, and plan your next skill swap.</p>
+            </div>
+
+            <a href="requests.html" class="btn btn-outline">View requests</a>
+        </section>
+
+        <!-- Messaging Application -->
+        <section class="messenger">
+
+            <!-- Conversation Sidebar -->
+            <aside class="conversation-sidebar">
+
+                <div class="conversation-heading">
+                    <h2>Messages</h2>
+                    <span id="conversationCount">0 chats</span>
+                </div>
+
+                <!-- Search Conversations -->
+                <div class="conversation-search">
+                    <span>🔍</span>
+                    <input
+                        type="search"
+                        id="conversationSearch"
+                        placeholder="Find a conversation..."
+                        aria-label="Search conversations"
+                    >
+                </div>
+
+                <!-- Conversation List -->
+                <div class="conversation-list" id="conversationList"></div>
+
+                <div class="no-conversations" id="noConversations" hidden>
+                    <span>💬</span>
+                    <p>No conversations found.</p>
+                </div>
+
+            </aside>
+
+            <!-- Chat Window -->
+            <section class="chat-window">
+
+                <!-- No Chat Selected -->
+                <div class="chat-welcome" id="chatWelcome">
+                    <span>💌</span>
+                    <h2>Your next great conversation starts here.</h2>
+                    <p>Select a conversation to start chatting.</p>
+                </div>
+
+                <!-- Active Conversation -->
+                <div class="active-chat" id="activeChat" hidden>
+
+                    <!-- Chat Header -->
+                    <header class="chat-header">
+                        <div class="chat-person">
+                            <div class="chat-avatar" id="chatAvatar">A</div>
+                            <div>
+                                <h2 id="chatName">Person</h2>
+                                <p id="chatSkill">Skill exchange</p>
+                            </div>
+                        </div>
+
+                        <span class="chat-demo-label">Demo chat</span>
+                    </header>
+
+                    <!-- Messages Appear Here -->
+                    <div
+                        class="chat-messages"
+                        id="chatMessages"
+                        aria-live="polite"
+                        aria-label="Conversation messages"
+                    ></div>
+
+                    <!-- Message Input -->
+                    <form class="message-form" id="messageForm">
+                        <input
+                            type="text"
+                            id="messageInput"
+                            placeholder="Write a message..."
+                            maxlength="1000"
+                            autocomplete="off"
+                            aria-label="Write a message"
+                            required
+                        >
+                        <button type="submit" aria-label="Send message">➤</button>
+                    </form>
+
+                    <p class="chat-disclaimer">
+                        Demo messages are stored in this browser only.
+                    </p>
+
+                </div>
+
+            </section>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Made with 💜 for curious minds · SkillSwap</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/messages.js"></script>
+</body>
+</html>
