@@ -1,17 +1,24 @@
-
 const mongoose = require('mongoose');
 const Review = require('../models/review');
 const Session = require('../models/session');
 
+// Fetch all reviews, sorted by newest first
+exports.getReviews = async (req, res) => {
+  try {
+    const reviews = await Review.find().sort({ createdAt: -1 });
+    return res.status(200).json({ success: true, reviews });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Failed to fetch reviews' });
+  }
+};
+
+// Add a new review for a completed session
 exports.addReview = async (req, res) => {
   try {
     const { sessionId, rating, comment } = req.body;
     const reviewerId = String(req.userId);
 
-    if (
-      !sessionId ||
-      !mongoose.Types.ObjectId.isValid(sessionId)
-    ) {
+    if (!sessionId || !mongoose.Types.ObjectId.isValid(sessionId)) {
       return res.status(400).json({
         success: false,
         message: 'A valid sessionId is required',
@@ -60,8 +67,7 @@ exports.addReview = async (req, res) => {
       });
     }
 
-    const revieweeId =
-      reviewerId === requesterId ? receiverId : requesterId;
+    const revieweeId = reviewerId === requesterId ? receiverId : requesterId;
 
     const existingReview = await Review.findOne({
       sessionId: String(session._id),
@@ -80,8 +86,7 @@ exports.addReview = async (req, res) => {
       reviewerId,
       revieweeId,
       rating: numericRating,
-      comment:
-        typeof comment === 'string' ? comment.trim() : '',
+      comment: typeof comment === 'string' ? comment.trim() : '',
     });
 
     return res.status(201).json({

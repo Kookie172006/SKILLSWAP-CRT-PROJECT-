@@ -32,54 +32,46 @@ function init() {
         return;
     }
 
-    // 1. Check if we arrived from the Requests page with a specific chat in the URL
     const urlParams = new URLSearchParams(window.location.search);
     const urlSwapId = urlParams.get('swapId');
     const urlReceiverId = urlParams.get('receiverId');
 
-    // Load sidebar conversations
     loadConversations(urlSwapId);
 
-    // If URL has a chat, open it immediately
     if (urlSwapId && urlReceiverId) {
-        openChat(urlSwapId, urlReceiverId, "SkillSwap Member"); // Name updates later
+        openChat(urlSwapId, urlReceiverId, "SkillSwap Member"); 
     }
 }
 
-// Open a specific chat panel
 function openChat(swapId, receiverId, receiverName) {
     activeSwapId = swapId;
     activeReceiverId = receiverId;
 
-    // Toggle UI States
     emptyChatState.hidden = true;
     activeChatState.hidden = false;
 
-    // Update Header
     document.getElementById("activeName").textContent = receiverName;
     document.getElementById("activeAvatar").textContent = receiverName.charAt(0).toUpperCase();
     
-    // Highlight active conversation in sidebar
     document.querySelectorAll('.conversation-item').forEach(item => item.classList.remove('active'));
     const activeItem = document.getElementById(`conv-${swapId}`);
     if(activeItem) activeItem.classList.add('active');
 
-    // Setup schedule button link
+    // FIXED: Added $ signs back to variables
     scheduleBtn.onclick = () => {
-        window.location.href = `sessions.html?swapId=${swapId}&receiverId=${receiverId}`;
+        window.location.href = `sessions?swapId=${swapId}&receiverId=${receiverId}&partnerName=${encodeURIComponent(receiverName)}`;
     };
 
-    // Load messages and start polling
     loadMessages();
     if (chatPollingInterval) clearInterval(chatPollingInterval);
-    chatPollingInterval = setInterval(loadMessages, 3000); // Check for new messages every 3s
+    chatPollingInterval = setInterval(loadMessages, 3000); 
 }
 
-// Fetch messages from backend
 async function loadMessages() {
     if (!activeSwapId) return;
 
     try {
+        // FIXED: Added API_BASE_URL formatting and $ to activeSwapId
         const response = await fetch(`${API_BASE_URL}/api/messages/${activeSwapId}`, {
             method: 'GET',
             headers: { 'Authorization': `Bearer ${token}` }
@@ -94,9 +86,8 @@ async function loadMessages() {
     }
 }
 
-// Render the message bubbles inside the chat window
 function renderMessages(messages) {
-    chatMessages.innerHTML = ""; // Clear current messages
+    chatMessages.innerHTML = ""; 
 
     if(messages.length === 0) {
         chatMessages.innerHTML = `<p style="text-align:center; color:#888; margin-top:2rem;">No messages yet. Say hi!</p>`;
@@ -119,16 +110,13 @@ function renderMessages(messages) {
         chatMessages.appendChild(wrapper);
     });
 
-    // Auto-scroll to bottom
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// Send a new message
 async function sendMessage() {
     const text = messageInput.value.trim();
     if (!text || !activeSwapId) return;
 
-    // Clear input instantly for snappy feel
     messageInput.value = ""; 
 
     try {
@@ -147,35 +135,32 @@ async function sendMessage() {
         
         const data = await response.json();
         if (data.success) {
-            loadMessages(); // Instantly refresh UI
+            loadMessages();
         }
     } catch (error) {
         console.error("Error sending message:", error);
     }
 }
 
-// Bind Send Button and Enter Key
 sendBtn.addEventListener("click", sendMessage);
 messageInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") sendMessage();
 });
 
-// Load the sidebar conversations (Fetches accepted swaps from Member 3's API)
 async function loadConversations(activeIdToHighlight) {
     try {
+        // FIXED: Added API_BASE_URL formatting and $ to currentUserId
         const response = await fetch(`${API_BASE_URL}/api/swaps?userId=${currentUserId}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();
         
-        // Filter only accepted swaps for chatting
         const acceptedSwaps = (data.swaps || []).filter(s => s.status === "accepted" || s.status === "completed");
         document.getElementById("chatCount").textContent = `${acceptedSwaps.length} chats`;
         
         conversationList.innerHTML = "";
         
         acceptedSwaps.forEach(swap => {
-            // Determine who the "other" person is
             const isRequester = swap.requesterId === currentUserId;
             const otherName = isRequester ? swap.receiverName : swap.requesterName;
             const otherId = isRequester ? swap.receiverId : swap.requesterId;
@@ -195,7 +180,6 @@ async function loadConversations(activeIdToHighlight) {
                 </div>
             `;
             
-            // When clicked, open the chat
             convItem.addEventListener("click", () => {
                 openChat(swap._id, otherId, otherName);
             });
@@ -208,5 +192,4 @@ async function loadConversations(activeIdToHighlight) {
     }
 }
 
-// Start the script
 init();
