@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 const Session = require('../models/session');
 const Swap = require('../models/Swap');
@@ -7,10 +6,26 @@ const isParticipant = (swap, userId) =>
   [String(swap.requesterId), String(swap.receiverId)]
     .includes(String(userId));
 
+// Fetch all sessions for the logged-in user
+exports.getSessions = async (req, res) => {
+  try {
+    const userId = String(req.userId);
+    
+    const sessions = await Session.find({
+      $or: [{ requesterId: userId }, { receiverId: userId }]
+    }).sort({ date: 1, time: 1 });
+
+    return res.status(200).json({ success: true, sessions });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Failed to fetch sessions' });
+  }
+};
+
 // Schedule a session for an accepted swap
 exports.scheduleSession = async (req, res) => {
   try {
-    const { swapId, receiverId, date, time } = req.body;
+    // FIXED: Now we are successfully pulling the extra text fields from the frontend request!
+    const { swapId, receiverId, date, time, skillName, partnerName, notes } = req.body;
     const requesterId = String(req.userId);
 
     if (
@@ -27,7 +42,6 @@ exports.scheduleSession = async (req, res) => {
     }
 
     // Require a real calendar date in YYYY-MM-DD format.
-
     const datePattern = /^\d{4}-\d{2}-\d{2}$/;
     const parsedDate = datePattern.test(date)
       ? new Date(`${date}T00:00:00.000Z`)
@@ -43,7 +57,6 @@ exports.scheduleSession = async (req, res) => {
         message: 'date must be a valid YYYY-MM-DD date',
       });
     }
-
 
     if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) {
       return res.status(400).json({
@@ -87,12 +100,16 @@ exports.scheduleSession = async (req, res) => {
       });
     }
 
+    // FIXED: Passed the extra text fields directly into the database creation block
     const session = await Session.create({
       swapId: String(swap._id),
       requesterId,
       receiverId: expectedReceiverId,
       date,
       time,
+      skillName,
+      partnerName,
+      notes,
     });
 
     return res.status(201).json({ success: true, session });
@@ -151,8 +168,6 @@ exports.completeSession = async (req, res) => {
     session.status = 'completed';
     await session.save();
 
-    // This does not transfer credits. The existing completeSwap endpoint
-    // remains responsible for lesson completion and credit transfers.
     return res.status(200).json({ success: true, session });
   } catch (error) {
     return res.status(500).json({
@@ -161,3 +176,4 @@ exports.completeSession = async (req, res) => {
     });
   }
 };
+

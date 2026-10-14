@@ -4,9 +4,12 @@ const sessionSchema = new mongoose.Schema({
   swapId: { type: String, required: true },
   requesterId: { type: String, required: true },
   receiverId: { type: String, required: true },
-  date: { type: String, required: true }, // e.g. '2026-10-15'
-  time: { type: String, required: true }, // e.g. '17:00'
-  status: { type: String, enum: ['scheduled', 'completed', 'canceled'], default: 'scheduled' }
+  date: { type: String, required: true },
+  time: { type: String, required: true },
+  skillName: { type: String },
+  partnerName: { type: String },
+  notes: { type: String },
+  status: { type: String, default: 'scheduled', enum: ['scheduled', 'completed', 'cancelled'] }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Session', sessionSchema);
+module.exports = mongoose.models.Session || mongoose.model('Session', sessionSchema);
