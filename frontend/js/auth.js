@@ -96,7 +96,7 @@ if (loginForm) {
                 password: password
             });
 
-            saveAuthSession(result.data);
+            saveAuthSession(result.data || result);
 
             showAuthMessage(
                 formMessage,
@@ -211,7 +211,7 @@ if (registerForm) {
                 confirmPassword: confirmPassword
             });
 
-            saveAuthSession(result.data);
+            saveAuthSession(result.data || result);
 
             showAuthMessage(
                 formMessage,
