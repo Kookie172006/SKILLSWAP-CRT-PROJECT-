@@ -1,7 +1,22 @@
+const API_BASE_URL = "http://localhost:5000";
+const token = localStorage.getItem("skillswap-token");
 
-// =========================
-// SESSION STORAGE AND SETUP
-// =========================
+let currentUser = null;
+try {
+    currentUser = JSON.parse(localStorage.getItem("skillswap-user") || "null");
+} catch (error) {
+    currentUser = null;
+}
+const currentUserId = currentUser?._id || currentUser?.id;
+
+if (!token || !currentUserId) {
+    window.location.href = "login.html";
+}
+
+const urlParams = new URLSearchParams(window.location.search);
+const activeSwapId = urlParams.get('swapId');
+const activePartnerId = urlParams.get('receiverId');
+const urlPartnerName = urlParams.get('partnerName'); 
 
 const sessionForm = document.getElementById("sessionForm");
 const sessionList = document.getElementById("sessionList");
@@ -9,110 +24,158 @@ const sessionFilter = document.getElementById("sessionFilter");
 const sessionMessage = document.getElementById("sessionMessage");
 const sessionDate = document.getElementById("sessionDate");
 const sessionTime = document.getElementById("sessionTime");
+const partnerNameInput = document.getElementById("partnerName");
+const skillNameInput = document.getElementById("skillName");
+const sessionNotesInput = document.getElementById("sessionNotes");
 
-let sessions = JSON.parse(localStorage.getItem("skillswap-sessions")) || [];
+if (urlPartnerName) {
+    partnerNameInput.value = urlPartnerName;
+    partnerNameInput.readOnly = true; 
+    partnerNameInput.style.backgroundColor = "var(--bg-secondary)"; 
+    partnerNameInput.style.cursor = "not-allowed";
+}
 
-// Prevent selecting a date in the past.
+let sessions = [];
+
 const today = new Date();
 const localToday = [
     today.getFullYear(),
     String(today.getMonth() + 1).padStart(2, "0"),
     String(today.getDate()).padStart(2, "0")
 ].join("-");
-
 sessionDate.min = localToday;
 
-// Add example sessions only when the user has no saved sessions.
-if (!localStorage.getItem("skillswap-sessions")) {
-    sessions = [
-        {
-            id: "demo1",
-            skillName: "Java Basics",
-            partner: "Alex Morgan",
-            date: localToday,
-            time: "16:00",
-            notes: "Practice loops and arrays together.",
-            status: "Scheduled"
-        },
-        {
-            id: "demo2",
-            skillName: "UI/UX Design",
-            partner: "Taylor Lee",
-            date: localToday,
-            time: "18:00",
-            notes: "Explore wireframes and design principles.",
-            status: "Scheduled"
-        },
-        {
-            id: "demo3",
-            skillName: "Python Fundamentals",
-            partner: "Sam Wilson",
-            date: localToday,
-            time: "10:00",
-            notes: "Review variables and dictionaries.",
-            status: "Completed"
+async function loadSessions() {
+    try {
+        // FIXED: Added API_BASE_URL formatting and $ to currentUserId
+        const response = await fetch(`${API_BASE_URL}/api/sessions?userId=${currentUserId}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        const data = await response.json();
+        
+        if (Array.isArray(data)) {
+            sessions = data;
+        } else if (data && Array.isArray(data.sessions)) {
+            sessions = data.sessions;
+        } else if (data && Array.isArray(data.data)) {
+            sessions = data.data;
+        } else {
+            sessions = []; 
         }
-    ];
-
-    saveSessions();
+        
+        renderSessions();
+    } catch (error) {
+        console.error("Error loading sessions:", error);
+        sessionList.innerHTML = `<div class="empty-sessions"><p style="color:#d94848;">Failed to connect to server. Please try again.</p></div>`;
+    }
 }
 
-// =========================
-// SAVE SESSION DATA
-// =========================
+sessionForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-function saveSessions() {
-    localStorage.setItem("skillswap-sessions", JSON.stringify(sessions));
+    const date = sessionDate.value;
+    const time = sessionTime.value;
+    const skillName = skillNameInput.value.trim();
+    const notes = sessionNotesInput.value.trim();
+    const partnerName = partnerNameInput.value.trim();
+
+    if (!activeSwapId || !activePartnerId || !date || !time) {
+        showSessionMessage("Missing required swap details or time. Please schedule directly from a chat.", true);
+        return;
+    }
+
+    const payload = {
+        swapId: activeSwapId, 
+        receiverId: activePartnerId,
+        date: date,
+        time: time,
+        skillName: skillName,
+        partnerName: partnerName,
+        notes: notes
+    };
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/sessions`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (response.ok || result.success) {
+            showSessionMessage("Session scheduled successfully! 🎉", false);
+            sessionForm.reset();
+            if (urlPartnerName) partnerNameInput.value = urlPartnerName;
+            sessionDate.min = localToday;
+            loadSessions();
+        } else {
+            showSessionMessage(result.message || "Failed to schedule session.", true);
+        }
+    } catch (error) {
+        console.error("Error creating session:", error);
+        showSessionMessage("Network error.", true);
+    }
+});
+
+async function completeSessionBackend(sessionId, swapId) {
+    try {
+        // FIXED: Added API_BASE_URL formatting and $ to sessionId
+        const response = await fetch(`${API_BASE_URL}/api/sessions/${sessionId}/complete`, {
+            method: 'PUT',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (response.ok) {
+            const confirmReview = confirm("Session completed! Do you want to leave a review now?");
+            if (confirmReview) {
+                // FIXED: Added $ to swapId and sessionId variables
+                window.location.href = `reviews?swapId=${swapId || ''}&sessionId=${sessionId}`;
+                return;
+            }
+            loadSessions(); 
+        } else {
+            alert("Failed to update session status in the database.");
+        }
+    } catch (error) {
+        console.error("Error updating status:", error);
+    }
 }
-
-// =========================
-// DISPLAY SESSION STATISTICS
-// =========================
 
 function updateSessionStats() {
-    document.getElementById("upcomingCount").textContent =
-        sessions.filter(session => session.status === "Scheduled").length;
-
-    document.getElementById("completedCount").textContent =
-        sessions.filter(session => session.status === "Completed").length;
-
+    document.getElementById("upcomingCount").textContent = sessions.filter(s => s.status.toLowerCase() === "scheduled").length;
+    document.getElementById("completedCount").textContent = sessions.filter(s => s.status.toLowerCase() === "completed").length;
+    
     const people = new Set(
         sessions
-            .filter(session => session.status !== "Cancelled")
-            .map(session => session.partner.trim().toLowerCase())
+            .filter(s => s.status.toLowerCase() !== "cancelled" && s.partnerName)
+            .map(s => s.partnerName.trim().toLowerCase())
     );
-
     document.getElementById("peopleCount").textContent = people.size;
 }
 
-// =========================
-// DISPLAY SESSION CARDS
-// =========================
-
 function renderSessions() {
     sessionList.innerHTML = "";
-
-    const filter = sessionFilter.value;
-
+    
+    const filter = sessionFilter.value.toLowerCase();
     const filteredSessions = sessions
-        .filter(session => filter === "All" || session.status === filter)
-        .sort((a, b) =>
-            (a.date + a.time).localeCompare(b.date + b.time)
-        );
+        .filter(session => filter === "all" || session.status.toLowerCase() === filter)
+        .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
 
     if (filteredSessions.length === 0) {
-        sessionList.innerHTML = `
-            <div class="empty-sessions">
-                <h3>No sessions found 🌱</h3>
-                <p>Schedule a session or choose another filter.</p>
-            </div>
-        `;
-
+        sessionList.innerHTML = `<div class="empty-sessions"><h3>No sessions found 🌱</h3><p>Schedule a session or choose another filter.</p></div>`;
         updateSessionStats();
         return;
     }
 
     filteredSessions.forEach(session => {
+        const sessionId = session._id || session.id; 
+        const pName = session.partnerName || "Unknown Partner";
+        
         const card = document.createElement("article");
         card.className = "session-item";
 
@@ -120,12 +183,12 @@ function renderSessions() {
         top.className = "session-item-top";
 
         const details = document.createElement("div");
-
+        
         const title = document.createElement("h3");
-        title.textContent = session.skillName;
+        title.textContent = session.skillName || "Skill Session";
 
         const partner = document.createElement("p");
-        partner.textContent = `🤝 Partner: ${session.partner}`;
+        partner.textContent = `🤝 Partner: ${pName}`;
 
         const date = document.createElement("p");
         date.textContent = `📅 Date: ${session.date}`;
@@ -134,7 +197,7 @@ function renderSessions() {
         time.textContent = `🕒 Time: ${session.time}`;
 
         details.append(title, partner, date, time);
-
+        
         if (session.notes) {
             const notes = document.createElement("p");
             notes.textContent = `📝 ${session.notes}`;
@@ -143,47 +206,25 @@ function renderSessions() {
 
         const status = document.createElement("span");
         status.className = "session-status";
-        status.textContent = session.status;
+        status.textContent = session.status.charAt(0).toUpperCase() + session.status.slice(1);
 
         top.append(details, status);
         card.appendChild(top);
 
-        // Actions are available only for scheduled sessions.
-        if (session.status === "Scheduled") {
+        if (session.status.toLowerCase() === "scheduled") {
             const actions = document.createElement("div");
             actions.className = "session-actions";
 
             const completeButton = document.createElement("button");
             completeButton.className = "complete-session";
-            completeButton.type = "button";
             completeButton.textContent = "Mark completed";
-
             completeButton.addEventListener("click", () => {
-                const confirmed = confirm(
-                    "Mark this session as completed? In the real app, both users should confirm completion."
-                );
-
-                if (confirmed) {
-                    updateSessionStatus(session.id, "Completed");
+                if (confirm("Mark this session as completed?")) {
+                    completeSessionBackend(sessionId, session.swapId);
                 }
             });
 
-            const reviewsButton = document.createElement("a");
-            reviewsButton.href = "reviews.html";
-            reviewsButton.className = "btn btn-outline";
-            reviewsButton.textContent = "Reviews";
-
-            const cancelButton = document.createElement("button");
-            cancelButton.type = "button";
-            cancelButton.textContent = "Cancel session";
-
-            cancelButton.addEventListener("click", () => {
-                if (confirm("Are you sure you want to cancel this session?")) {
-                    updateSessionStatus(session.id, "Cancelled");
-                }
-            });
-
-            actions.append(completeButton, reviewsButton, cancelButton);
+            actions.appendChild(completeButton);
             card.appendChild(actions);
         }
 
@@ -193,90 +234,11 @@ function renderSessions() {
     updateSessionStats();
 }
 
-// =========================
-// CREATE A NEW SESSION
-// =========================
-
-sessionForm.addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    const skillName = document.getElementById("skillName").value.trim();
-    const partner = document.getElementById("partnerName").value.trim();
-    const date = sessionDate.value;
-    const time = sessionTime.value;
-    const notes = document.getElementById("sessionNotes").value.trim();
-
-    if (!skillName || !partner || !date || !time) {
-        showSessionMessage("Please fill in all required fields.", true);
-        return;
-    }
-
-    if (date < localToday) {
-        showSessionMessage("Please choose today or a future date.", true);
-        return;
-    }
-
-    if (date === localToday) {
-        const selectedDateTime = new Date(`${date}T${time}`);
-
-        if (selectedDateTime < new Date()) {
-            showSessionMessage("Please choose a future time.", true);
-            return;
-        }
-    }
-
-    const newSession = {
-        id: Date.now().toString(),
-        skillName,
-        partner,
-        date,
-        time,
-        notes,
-        status: "Scheduled"
-    };
-
-    sessions.push(newSession);
-    saveSessions();
-
-    sessionForm.reset();
-    sessionDate.min = localToday;
-    sessionFilter.value = "All";
-
-    showSessionMessage("Session scheduled successfully! 🎉", false);
-    renderSessions();
-});
-
-// =========================
-// UPDATE SESSION STATUS
-// =========================
-
-function updateSessionStatus(id, status) {
-    sessions = sessions.map(session =>
-        session.id === id ? { ...session, status } : session
-    );
-
-    saveSessions();
-    renderSessions();
-}
-
-// =========================
-// FORM FEEDBACK
-// =========================
+sessionFilter.addEventListener("change", renderSessions);
 
 function showSessionMessage(message, isError) {
     sessionMessage.textContent = message;
     sessionMessage.style.color = isError ? "#d94848" : "var(--primary)";
 }
 
-// =========================
-// FILTER SESSION CARDS
-// =========================
-
-sessionFilter.addEventListener("change", renderSessions);
-
-// =========================
-// INITIAL PAGE RENDER
-// =========================
-
-renderSessions();
-
+loadSessions();
