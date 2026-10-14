@@ -1,4 +1,3 @@
-
 const API_BASE_URL = "http://localhost:5000";
 
 const requestsList = document.getElementById("requestsList");
@@ -195,6 +194,22 @@ function createRequestCard(request) {
         actions.append(acceptButton, rejectButton);
     }
 
+    // Show Chat only for accepted or completed swaps.
+    if (
+        ["Accepted", "Completed"].includes(request.status)
+    ) {
+        const chatButton = document.createElement("a");
+        chatButton.className = "chat-request";
+        chatButton.href = "messages.html";
+        chatButton.textContent = "💬 Chat";
+        chatButton.setAttribute(
+            "aria-label",
+            "Chat about this swap"
+        );
+
+        actions.appendChild(chatButton);
+    }
+
     bottom.append(date, actions);
     card.append(top, details, bottom);
 
@@ -278,6 +293,7 @@ async function loadRequests() {
         const description = requestsEmpty.querySelector("p");
 
         if (heading) heading.textContent = "Please log in";
+
         if (description) {
             description.textContent =
                 "Log in to view and manage your swap requests.";
@@ -308,6 +324,7 @@ async function loadRequests() {
         const description = requestsEmpty.querySelector("p");
 
         if (heading) heading.textContent = "Couldn't load requests";
+
         if (description) {
             description.textContent =
                 error.message || "Please refresh and try again.";
@@ -318,7 +335,6 @@ async function loadRequests() {
 document.querySelectorAll(".request-tab").forEach(button => {
     button.addEventListener("click", function () {
         currentTab = this.dataset.tab;
-
         document.querySelectorAll(".request-tab").forEach(tab => {
             tab.classList.remove("active");
         });

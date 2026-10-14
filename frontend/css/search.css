@@ -1,0 +1,433 @@
+
+/* ========================================
+   EXPLORE PAGE LAYOUT
+======================================== */
+
+.explore-page {
+    width: min(1180px, 92%);
+    margin: 40px auto 70px;
+}
+
+/* ========================================
+   HERO AND SEARCH BAR
+======================================== */
+
+.explore-hero {
+    text-align: center;
+    padding: 45px 20px 40px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+}
+
+.explore-hero h1 {
+    margin: 12px 0;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+}
+
+.explore-hero > p:not(.section-label) {
+    max-width: 600px;
+    margin: 0 auto;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.explore-search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 700px;
+    margin: 28px auto 16px;
+    padding: 8px 8px 8px 17px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+}
+
+.explore-search > span {
+    font-size: 20px;
+}
+
+.explore-search input {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+}
+
+.explore-search button {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 11px;
+    background: var(--primary);
+    color: white;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.explore-search button:hover {
+    opacity: 0.88;
+}
+
+.popular-searches {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 9px;
+    font-size: 13px;
+}
+
+.popular-searches > span {
+    color: var(--muted);
+}
+
+.popular-tag {
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+}
+
+.popular-tag:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+
+/* ========================================
+   FILTERS AND RESULTS
+======================================== */
+
+.explore-content {
+    display: grid;
+    grid-template-columns: 245px minmax(0, 1fr);
+    align-items: start;
+    gap: 25px;
+    margin-top: 35px;
+}
+
+.explore-filters {
+    padding: 23px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+}
+
+.explore-filters h2 {
+    margin: 0 0 24px;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 20px;
+}
+
+.explore-filters label {
+    display: block;
+    margin: 18px 0 9px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.explore-filters select {
+    width: 100%;
+    padding: 12px;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    font: inherit;
+    font-size: 13px;
+}
+
+.clear-filters {
+    width: 100%;
+    padding: 11px;
+    margin-top: 18px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+}
+
+.clear-filters:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.filter-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 28px;
+    padding: 14px;
+    border-radius: 14px;
+    background: var(--soft-purple);
+}
+
+.filter-tip span {
+    font-size: 20px;
+}
+
+.filter-tip p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--muted);
+}
+
+.results-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.results-heading h2 {
+    margin: 8px 0 0;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 25px;
+}
+
+#resultCount {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+
+/* ========================================
+   EXPLORE SKILL CARDS
+======================================== */
+
+.explore-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 17px;
+}
+
+.explore-card {
+    padding: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.explore-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary);
+}
+
+.explore-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.explore-skill-icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+    background: var(--soft-purple);
+    font-size: 24px;
+}
+
+.explore-category {
+    display: inline-block;
+    padding: 6px 9px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.explore-card h3 {
+    margin: 17px 0 7px;
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 20px;
+    overflow-wrap: anywhere;
+}
+
+.explore-teacher {
+    margin: 0 0 12px;
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.explore-description {
+    min-height: 42px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.explore-card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border);
+}
+
+.credit-label {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.request-swap-btn {
+    padding: 10px 13px;
+    border: none;
+    border-radius: 10px;
+    background: var(--primary);
+    color: white;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.request-swap-btn:hover {
+    opacity: 0.88;
+}
+
+.request-swap-btn:disabled {
+    opacity: 0.65;
+    cursor: default;
+}
+
+
+/* ========================================
+   EMPTY RESULTS AND CTA
+======================================== */
+
+.no-results {
+    padding: 45px 15px;
+    text-align: center;
+    border: 1px dashed var(--border);
+    border-radius: 20px;
+}
+
+.no-results > span {
+    font-size: 40px;
+}
+
+.no-results h3 {
+    font-family: "Space Grotesk", sans-serif;
+}
+
+.no-results p {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.explore-cta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+    margin-top: 45px;
+    padding: 30px;
+    border-radius: 22px;
+    background: var(--soft-purple);
+}
+
+.explore-cta h2 {
+    margin: 10px 0;
+    font-family: "Space Grotesk", sans-serif;
+}
+
+.explore-cta p:not(.section-label) {
+    margin-bottom: 0;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.explore-cta .btn {
+    flex-shrink: 0;
+}
+
+
+/* ========================================
+   RESPONSIVE DESIGN
+======================================== */
+
+@media (max-width: 900px) {
+    .explore-content {
+        grid-template-columns: 1fr;
+    }
+
+    .explore-filters {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 15px;
+    }
+
+    .explore-filters h2,
+    .filter-tip {
+        grid-column: 1 / -1;
+    }
+
+    .explore-filters label {
+        margin-top: 5px;
+    }
+
+    .clear-filters {
+        align-self: end;
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .explore-hero {
+        padding: 30px 16px;
+    }
+
+    .explore-search {
+        gap: 8px;
+    }
+
+    .explore-search button {
+        padding: 11px 13px;
+    }
+
+    .explore-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .explore-filters {
+        display: block;
+    }
+
+    .explore-filters label {
+        margin-top: 18px;
+    }
+
+    .clear-filters {
+        margin-top: 18px;
+    }
+
+    .explore-cta {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 23px;
+    }
+}

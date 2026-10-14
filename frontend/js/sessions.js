@@ -7,7 +7,6 @@ const sessionForm = document.getElementById("sessionForm");
 const sessionList = document.getElementById("sessionList");
 const sessionFilter = document.getElementById("sessionFilter");
 const sessionMessage = document.getElementById("sessionMessage");
-
 const sessionDate = document.getElementById("sessionDate");
 const sessionTime = document.getElementById("sessionTime");
 

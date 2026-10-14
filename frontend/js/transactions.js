@@ -221,7 +221,6 @@ async function loadTransactions() {
             "Unable to load credit history. Please refresh and try again.";
     }
 }
-
 transactionFilter.addEventListener("change", renderTransactions);
 
 loadTransactions();

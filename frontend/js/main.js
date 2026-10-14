@@ -8,7 +8,6 @@ if (savedTheme === "dark") {
 }
 
 updateThemeButton();
-
 themeToggle.addEventListener("click", function () {
     document.body.classList.toggle("dark-theme");
 

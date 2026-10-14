@@ -220,7 +220,6 @@ if (registerForm) {
             );
 
             window.location.href = "dashboard.html";
-
         } catch (error) {
             showAuthMessage(
                 formMessage,

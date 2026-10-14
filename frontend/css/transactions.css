@@ -1,0 +1,352 @@
+
+/* =========================
+   PAGE LAYOUT
+========================= */
+
+.transactions-container {
+    width: min(1120px, 92%);
+    margin: 40px auto 70px;
+}
+.transactions-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 36px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+}
+
+.transactions-hero h1 {
+    margin: 12px 0;
+    font-size: clamp(28px, 4vw, 42px);
+}
+
+.transactions-hero p {
+    max-width: 590px;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+.credit-hero-icon {
+    display: grid;
+    place-items: center;
+    min-width: 110px;
+    height: 110px;
+    border-radius: 28px;
+    background: var(--soft-purple);
+    font-size: 48px;
+}
+
+/* =========================
+   CREDIT SUMMARY CARDS
+========================= */
+
+.credit-summary {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr 1fr;
+    gap: 18px;
+    margin: 25px 0;
+}
+
+.credit-balance-card,
+.credit-stat-card {
+    padding: 25px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--surface);
+}
+
+.credit-balance-card {
+    color: white;
+    background: linear-gradient(135deg, #7547ef, #9b70ff);
+    border: none;
+}
+
+.balance-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 14px;
+}
+
+.balance-icon {
+    font-size: 24px;
+}
+
+.credit-balance-card h2 {
+    margin: 18px 0 8px;
+    font-size: 44px;
+}
+
+.credit-balance-card p {
+    font-size: 13px;
+    line-height: 1.7;
+    opacity: 0.92;
+}
+
+.credit-note {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.credit-stat-icon {
+    display: grid;
+    place-items: center;
+    width: 43px;
+    height: 43px;
+    border-radius: 13px;
+    font-size: 25px;
+}
+
+.earned-icon {
+    background: #dcfce7;
+    color: #16834b;
+}
+
+.spent-icon {
+    background: #fee2e2;
+    color: #c24141;
+}
+
+.credit-stat-card p {
+    margin: 17px 0 8px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.credit-stat-card h2 {
+    margin: 0 0 8px;
+    font-size: 30px;
+}
+
+.credit-stat-card > span:last-child {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* =========================
+   TRANSACTION HISTORY
+========================= */
+
+.transaction-history {
+    padding: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+}
+
+.history-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.history-heading h2 {
+    margin: 9px 0;
+    font-size: 25px;
+}
+
+.history-heading p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.history-heading select {
+    padding: 12px;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font: inherit;
+}
+
+.transaction-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.transaction-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.transaction-table th,
+.transaction-table td {
+    padding: 17px 14px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+.transaction-table th {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.transaction-table td {
+    font-size: 13px;
+}
+
+.transaction-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.activity-cell {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.activity-icon {
+    display: grid;
+    place-items: center;
+    min-width: 39px;
+    height: 39px;
+    border-radius: 12px;
+    background: var(--soft-purple);
+    font-size: 18px;
+}
+
+.activity-title {
+    font-weight: 600;
+}
+
+.activity-description {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.transaction-type {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 30px;
+    background: var(--soft-purple);
+    color: var(--primary);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.credit-positive {
+    color: #16834b;
+    font-weight: 700;
+}
+
+.credit-negative {
+    color: #d04b4b;
+    font-weight: 700;
+}
+
+.balance-cell {
+    font-weight: 600;
+}
+
+.empty-transactions {
+    padding: 40px 15px;
+    text-align: center;
+    color: var(--muted);
+}
+
+.empty-transactions[hidden] {
+    display: none;
+}
+
+.empty-transactions > span {
+    font-size: 35px;
+}
+
+.empty-transactions h3 {
+    color: var(--text);
+}
+
+/* =========================
+   CREDIT GUIDE
+========================= */
+
+.credit-guide {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-top: 25px;
+    padding: 24px;
+    border-radius: 18px;
+    background: var(--soft-purple);
+}
+
+.guide-icon {
+    font-size: 28px;
+}
+
+.credit-guide h3 {
+    margin: 0 0 9px;
+}
+
+.credit-guide p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+@media (max-width: 850px) {
+    .credit-summary {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .credit-balance-card {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 600px) {
+    .transactions-container {
+        margin-top: 22px;
+    }
+
+    .transactions-hero {
+        padding: 25px;
+    }
+
+    .credit-hero-icon {
+        display: none;
+    }
+
+    .credit-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .credit-balance-card {
+        grid-column: auto;
+    }
+
+    .transaction-history {
+        padding: 20px 15px;
+    }
+
+    .history-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .history-heading select {
+        width: 100%;
+    }
+
+    .credit-guide {
+        padding: 19px;
+    }
+}
+

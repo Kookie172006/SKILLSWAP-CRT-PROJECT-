@@ -638,7 +638,6 @@ h1, h2, h3 {
         right: 0;
     }
 }
-
 @media (max-width: 760px) {
     .navbar {
         padding: 15px 5%;

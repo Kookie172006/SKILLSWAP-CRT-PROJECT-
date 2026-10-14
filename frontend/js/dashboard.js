@@ -39,7 +39,6 @@ if (savedSkills.length > 0) {
 
         const title = document.createElement("h3");
         title.textContent = skill.name || skill.title || "Untitled skill";
-
         const description = document.createElement("p");
         description.textContent =
             skill.type === "learn"

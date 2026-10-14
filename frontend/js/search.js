@@ -337,5 +337,4 @@ async function loadExploreData() {
         exploreGrid.hidden = true;
     }
 }
-
 loadExploreData();
