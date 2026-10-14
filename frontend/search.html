@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Skills | SkillSwap</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/search.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <img src="images/icon.png" alt="SkillSwap logo" class="logo-image logo-image-navbar">
+            <span class="logo-word">SkillSwap</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="skills.html">My Skills</a>
+            <a href="search.html" class="active">Explore</a>
+            <a href="requests.html">Requests</a>
+        </div>
+
+        <div class="nav-actions">
+            <button class="theme-toggle" id="themeToggle" aria-label="Switch theme">☾</button>
+            <a href="profile.html" class="btn btn-outline">My Profile</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="explore-page">
+
+        <!-- Hero Section -->
+        <section class="explore-hero">
+            <p class="section-label">DISCOVER. CONNECT. SWAP.</p>
+            <h1>Find your next <span class="gradient-text">skill buddy.</span></h1>
+            <p>Learn something you've always wanted to know, or share a skill that someone else needs.</p>
+
+            <!-- Search Bar -->
+            <div class="explore-search">
+                <span>🔍</span>
+                <input
+                    type="search"
+                    id="searchInput"
+                    placeholder="Search Java, design, guitar..."
+                    aria-label="Search available skills"
+                >
+                <button type="button" id="searchButton">Search</button>
+            </div>
+
+            <div class="popular-searches">
+                <span>Popular:</span>
+                <button type="button" class="popular-tag" data-search="Java">Java</button>
+                <button type="button" class="popular-tag" data-search="Design">Design</button>
+                <button type="button" class="popular-tag" data-search="Python">Python</button>
+                <button type="button" class="popular-tag" data-search="Photography">Photography</button>
+            </div>
+        </section>
+
+        <!-- Explore Content -->
+        <section class="explore-content">
+
+            <!-- Filters -->
+            <aside class="explore-filters">
+                <h2>Explore filters</h2>
+
+                <label for="categoryFilter">Category</label>
+                <select id="categoryFilter">
+                    <option value="all">All categories</option>
+                    <option value="programming">Programming</option>
+                    <option value="design">Design & Creativity</option>
+                    <option value="communication">Communication</option>
+                    <option value="music">Music</option>
+                    <option value="languages">Languages</option>
+                    <option value="other">Other</option>
+                </select>
+
+                <label for="sortFilter">Sort by</label>
+                <select id="sortFilter">
+                    <option value="default">Recommended</option>
+                    <option value="name">Skill name: A–Z</option>
+                </select>
+
+                <button type="button" id="clearFilters" class="clear-filters">
+                    Clear filters
+                </button>
+
+                <div class="filter-tip">
+                    <span>💡</span>
+                    <p>Swapping is about sharing knowledge, not money. Every skill has value!</p>
+                </div>
+            </aside>
+
+            <!-- Skill Results -->
+            <div class="explore-results">
+
+                <div class="results-heading">
+                    <div>
+                        <p class="section-label">YOUR NEXT DISCOVERY</p>
+                        <h2>Skills to explore</h2>
+                    </div>
+                    <span id="resultCount">0 skills</span>
+                </div>
+
+                <!-- JavaScript inserts skill cards here -->
+                <div class="explore-grid" id="exploreGrid"></div>
+
+                <!-- Empty State -->
+                <div class="no-results" id="noResults" hidden>
+                    <span>🔎</span>
+                    <h3>No matching skills</h3>
+                    <p>Try a different search or clear your filters.</p>
+                    <button type="button" id="emptyClearButton" class="btn btn-primary">
+                        Show all skills
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="explore-cta">
+            <div>
+                <p class="section-label">EVERYONE HAS SOMETHING TO SHARE</p>
+                <h2>Got a skill someone needs?</h2>
+                <p>Add it to your collection and let others discover what you can teach.</p>
+            </div>
+
+            <a href="skills.html" class="btn btn-primary">Add my skills →</a>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Made with 💜 for curious minds · SkillSwap</p>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="js/main.js"></script>
+    <script src="js/search.js"></script>
+</body>
+</html>

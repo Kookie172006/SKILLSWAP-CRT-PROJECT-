@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sessions | SkillSwap</title>
+
+    <!-- Shared and page-specific styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sessions.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <a href="dashboard.html" class="logo">
+            <img src="images/icon.png" alt="SkillSwap logo" class="logo-image logo-image-navbar">
+            <span class="logo-word">SkillSwap</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="skills.html">My Skills</a>
+            <a href="search.html">Explore</a>
+            <a href="requests.html">Requests</a>
+            
+            <a href="sessions.html" class="active">Sessions</a>
+        </nav>
+
+        <div class="nav-actions">
+            <button id="themeToggle" class="theme-toggle"
+                    type="button" aria-label="Switch theme">☾</button>
+            <a href="profile.html" class="btn btn-outline">My Profile</a>
+        </div>
+    </header>
+
+    <main class="sessions-container">
+
+        <!-- Page heading -->
+        <section class="sessions-hero">
+            <div>
+                <span class="section-label">YOUR LEARNING JOURNEY</span>
+                <h1>Make time to <span class="gradient-text">swap skills.</span></h1>
+                <p>Every session is a chance to learn something new and share what you know.</p>
+            </div>
+
+            <div class="session-hero-icon" aria-hidden="true">📅</div>
+        </section>
+
+        <!-- Session statistics -->
+        <section class="session-stats">
+            <article class="session-stat">
+                <span class="stat-icon">🗓️</span>
+                <div>
+                    <p>Upcoming</p>
+                    <h2 id="upcomingCount">0</h2>
+                </div>
+            </article>
+
+            <article class="session-stat">
+                <span class="stat-icon">🎉</span>
+                <div>
+                    <p>Completed</p>
+                    <h2 id="completedCount">0</h2>
+                </div>
+            </article>
+
+            <article class="session-stat">
+                <span class="stat-icon">🤝</span>
+                <div>
+                    <p>People connected</p>
+                    <h2 id="peopleCount">0</h2>
+                </div>
+            </article>
+        </section>
+
+        <!-- Schedule a session -->
+        <section class="schedule-card">
+            <div class="section-heading">
+                <div>
+                    <span class="section-label">PLAN AHEAD</span>
+                    <h2>Schedule a session</h2>
+                    <p>Choose a skill, a learning partner, and a time that works.</p>
+                </div>
+                <span class="schedule-icon">✨</span>
+            </div>
+
+            <form id="sessionForm" class="session-form">
+                <div class="form-group">
+                    <label for="skillName">Skill to exchange</label>
+                    <input type="text" id="skillName"
+                           placeholder="e.g. Java, UI/UX Design" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="partnerName">Learning partner</label>
+                    <input type="text" id="partnerName"
+                           placeholder="Enter partner's name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="sessionDate">Date</label>
+                    <input type="date" id="sessionDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="sessionTime">Time</label>
+                    <input type="time" id="sessionTime" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="sessionNotes">Session notes (optional)</label>
+                    <textarea id="sessionNotes" rows="3"
+                              placeholder="What would you like to learn or teach?"></textarea>
+                </div>
+
+                <p id="sessionMessage" class="form-message full-width"
+                   aria-live="polite"></p>
+
+                <button type="submit" class="btn schedule-button">
+                    + Schedule Session
+                </button>
+            </form>
+        </section>
+
+        <!-- Session list -->
+        <section class="session-list-section">
+            <div class="section-heading session-list-heading">
+                <div>
+                    <span class="section-label">YOUR CALENDAR</span>
+                    <h2>Your sessions</h2>
+                </div>
+
+                <select id="sessionFilter" aria-label="Filter sessions">
+                    <option value="All">All sessions</option>
+                    <option value="Scheduled">Upcoming</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+            </div>
+
+            <div id="sessionList" class="session-list"></div>
+        </section>
+
+        <!-- Reminder -->
+        <aside class="session-tip">
+            <span class="tip-icon">💜</span>
+            <div>
+                <h3>A little reminder</h3>
+                <p>Be on time, come prepared, and make learning fun for both of you!
+                Skill credits should only be transferred after a session is completed
+                and verified by the backend.</p>
+            </div>
+        </aside>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Made with 💜 by SkillSwap · Share skills, grow together.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/sessions.js"></script>
+</body>
+</html>
+

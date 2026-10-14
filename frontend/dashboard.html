@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ===== PAGE SETTINGS ===== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | SkillSwap</title>
+
+    <!-- ===== SHARED STYLES ===== -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+
+    <!-- ===== DASHBOARD JAVASCRIPT ===== -->
+    <script src="js/main.js" defer></script>
+    <script src="js/dashboard.js" defer></script>
+</head>
+
+<body>
+
+    <!-- ===== NAVIGATION BAR ===== -->
+    <header class="navbar dashboard-navbar">
+
+        <a href="index.html" class="logo">
+            <img src="images/icon.png" alt="SkillSwap logo" class="logo-image logo-image-navbar">
+            <span class="logo-word">Skill<span>Swap</span></span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="dashboard.html" class="active-link">Dashboard</a>
+            <a href="skills.html">My Skills</a>
+            <a href="search.html">Explore</a>
+            <a href="requests.html">Requests</a>
+        </nav>
+
+        <div class="nav-actions">
+            <!-- Theme toggle -->
+            <button
+                class="theme-toggle"
+                id="themeToggle"
+                aria-label="Switch theme"
+                type="button">☾</button>
+
+            <!-- Profile shortcut -->
+            <a href="profile.html" class="profile-shortcut">
+                <span class="profile-avatar" id="navAvatar">S</span>
+                <span id="navUserName">My Profile</span>
+            </a>
+        </div>
+    </header>
+
+
+    <!-- ===== MAIN DASHBOARD CONTENT ===== -->
+    <main class="dashboard-container">
+
+        <!-- Welcome banner -->
+        <section class="dashboard-welcome">
+            <div>
+                <p class="section-label">YOUR SKILLS JOURNEY</p>
+
+                <h1>
+                    Hey, <span id="welcomeName">Learner!</span>
+                    <span class="gradient-text">Ready to grow?</span>
+                </h1>
+
+                <p>
+                    Every skill you share creates an opportunity
+                    to learn something new.
+                </p>
+
+                <a href="search.html" class="btn dashboard-primary-btn">
+                    Find your next skill ↗
+                </a>
+            </div>
+
+            <!-- Decorative illustration using emoji -->
+            <div class="welcome-illustration" aria-hidden="true">
+                <span class="illustration-circle circle-one">💻</span>
+                <span class="illustration-circle circle-two">🎨</span>
+                <span class="illustration-circle circle-three">📚</span>
+                <div class="illustration-center">↔</div>
+            </div>
+        </section>
+
+
+        <!-- ===== QUICK SUMMARY CARDS ===== -->
+        <section class="dashboard-stats" aria-label="Your activity">
+
+            <!-- Skill Credits -->
+            <article class="dashboard-stat credit-stat">
+                <div class="stat-top">
+                    <span class="stat-icon">🪙</span>
+                    <span class="stat-caption">YOUR BALANCE</span>
+                </div>
+
+                <h2><span id="creditBalance">5</span> Credits</h2>
+                <p>Use credits to learn from others.</p>
+
+                <a href="transactions.html">View transactions →</a>
+            </article>
+
+            <!-- Skills offered -->
+            <article class="dashboard-stat">
+                <div class="stat-top">
+                    <span class="stat-icon">🧠</span>
+                    <span class="stat-caption">YOUR KNOWLEDGE</span>
+                </div>
+
+                <h2 id="skillsCount">0 Skills</h2>
+                <p>Share what you already know.</p>
+
+                <a href="skills.html">Manage my skills →</a>
+            </article>
+
+            <!-- Pending requests -->
+            <article class="dashboard-stat">
+                <div class="stat-top">
+                    <span class="stat-icon">🤝</span>
+                    <span class="stat-caption">CONNECTIONS</span>
+                </div>
+
+                <h2 id="requestsCount">0 Requests</h2>
+                <p>Your skill exchanges at a glance.</p>
+
+                <a href="requests.html">View requests →</a>
+            </article>
+        </section>
+
+
+        <!-- ===== MAIN DASHBOARD GRID ===== -->
+        <section class="dashboard-grid">
+
+            <!-- Left: skills and discovery -->
+            <div class="dashboard-main-column">
+
+                <!-- My skills panel -->
+                <section class="dashboard-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <p class="section-label">YOUR TOOLKIT</p>
+                            <h2>My skills</h2>
+                        </div>
+
+                        <a href="skills.html" class="text-link">
+                            Manage skills →
+                        </a>
+                    </div>
+
+                    <div class="empty-state" id="mySkillsEmpty">
+                        <span>🧩</span>
+                        <h3>Your skills live here</h3>
+                        <p>Add skills you can teach and topics you want to learn.</p>
+
+                        <a href="skills.html" class="btn btn-outline">
+                            Add your first skill
+                        </a>
+                    </div>
+
+                    <!-- JavaScript can display saved skills here -->
+                    <div class="dashboard-skill-list" id="mySkillsList"></div>
+                </section>
+
+
+                <!-- Explore panel -->
+                <section class="dashboard-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <p class="section-label">KEEP DISCOVERING</p>
+                            <h2>Explore opportunities</h2>
+                        </div>
+
+                        <a href="search.html" class="text-link">
+                            Explore all →
+                        </a>
+                    </div>
+
+                    <div class="opportunity-grid">
+
+                        <a href="search.html" class="opportunity-card">
+                            <span class="opportunity-icon purple-bg">💻</span>
+                            <h3>Technology</h3>
+                            <p>Programming, web development and more.</p>
+                            <span class="opportunity-link">Find a match →</span>
+                        </a>
+
+                        <a href="search.html" class="opportunity-card">
+                            <span class="opportunity-icon orange-bg">🎨</span>
+                            <h3>Creative skills</h3>
+                            <p>Design, drawing, editing and creativity.</p>
+                            <span class="opportunity-link">Find a match →</span>
+                        </a>
+
+                        <a href="search.html" class="opportunity-card">
+                            <span class="opportunity-icon green-bg">🗣️</span>
+                            <h3>Communication</h3>
+                            <p>Languages, speaking and collaboration.</p>
+                            <span class="opportunity-link">Find a match →</span>
+                        </a>
+
+                        <a href="search.html" class="opportunity-card">
+                            <span class="opportunity-icon pink-bg">📈</span>
+                            <h3>Business</h3>
+                            <p>Leadership, planning and productivity.</p>
+                            <span class="opportunity-link">Find a match →</span>
+                        </a>
+
+                    </div>
+                </section>
+            </div>
+
+
+            <!-- Right: requests and recent activity -->
+            <aside class="dashboard-side-column">
+
+                <!-- Swap requests panel -->
+                <section class="dashboard-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <p class="section-label">LET'S CONNECT</p>
+                            <h2>Swap requests</h2>
+                        </div>
+
+                        <a href="requests.html" class="text-link">View all</a>
+                    </div>
+
+                    <div class="empty-state compact-empty">
+                        <span>💌</span>
+                        <h3>No requests yet</h3>
+                        <p>Your incoming and outgoing requests will appear here.</p>
+                    </div>
+                </section>
+
+
+                <!-- Recent activity panel -->
+                <section class="dashboard-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <p class="section-label">YOUR PROGRESS</p>
+                            <h2>Recent activity</h2>
+                        </div>
+                    </div>
+
+                    <div class="activity-list" id="activityList">
+                        <div class="activity-item">
+                            <span class="activity-icon">👋</span>
+                            <div>
+                                <h3>Welcome to SkillSwap!</h3>
+                                <p>Start by adding a skill to your profile.</p>
+                            </div>
+                        </div>
+
+                        <div class="activity-item">
+                            <span class="activity-icon">🪙</span>
+                            <div>
+                                <h3>Your journey starts with 5 credits</h3>
+                                <p>Discover skills you can learn.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="transactions.html" class="text-link activity-link">
+                        View credit history →
+                    </a>
+                </section>
+
+
+                <!-- Helpful tip -->
+                <section class="dashboard-tip">
+                    <span>💡</span>
+                    <div>
+                        <h3>SkillSwap tip</h3>
+                        <p>
+                            Add both teaching and learning interests
+                            to find more meaningful skill exchanges.
+                        </p>
+                    </div>
+                </section>
+
+            </aside>
+        </section>
+
+    </main>
+
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer dashboard-footer">
+        <a href="index.html" class="logo">
+            <span class="logo-word">Skill<span>Swap</span></span>
+        </a>
+
+        <p>Teach what you know. Learn what you need.</p>
+
+        <a href="profile.html">Your profile</a>
+    </footer>
+
+</body>
+</html>
