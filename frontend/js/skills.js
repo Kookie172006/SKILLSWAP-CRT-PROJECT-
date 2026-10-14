@@ -155,7 +155,12 @@ function displaySkills() {
         description.textContent =
             skill.description || "Ready to grow and share through SkillSwap.";
 
-        card.append(top, type, title, description);
+        const chatButton = document.createElement("a");
+        chatButton.href = "messages.html";
+        chatButton.className = "btn btn-primary";
+        chatButton.textContent = "Chat";
+
+        card.append(top, type, title, description, chatButton);
         skillsGrid.appendChild(card);
     });
 

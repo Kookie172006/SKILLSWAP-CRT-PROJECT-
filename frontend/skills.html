@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Skills | SkillSwap</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/skills.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <img src="images/icon.png" alt="SkillSwap logo" class="logo-image logo-image-navbar">
+            <span class="logo-word">SkillSwap</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="skills.html" class="active">My Skills</a>
+            <a href="search.html">Explore</a>
+            <a href="requests.html">Requests</a>
+        </div>
+
+        <div class="nav-actions">
+            <button class="theme-toggle" id="themeToggle" aria-label="Switch theme">☾</button>
+            <a href="profile.html" class="btn btn-outline">My Profile</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="skills-page">
+
+        <!-- Page Heading -->
+        <section class="skills-heading">
+            <p class="section-label">YOUR SKILL COLLECTION</p>
+            <h1>Your skills. <span class="gradient-text">Your growth.</span></h1>
+            <p>Add what you can teach and what you'd love to learn. Every skill can start a new connection!</p>
+        </section>
+
+        <!-- Summary Cards -->
+        <section class="skill-stats">
+            <div class="skill-stat-card">
+                <span class="stat-icon">🎓</span>
+                <div>
+                    <h2 id="teachCount">0</h2>
+                    <p>Skills I can teach</p>
+                </div>
+            </div>
+
+            <div class="skill-stat-card">
+                <span class="stat-icon">🌱</span>
+                <div>
+                    <h2 id="learnCount">0</h2>
+                    <p>Skills I want to learn</p>
+                </div>
+            </div>
+
+            <div class="skill-stat-card">
+                <span class="stat-icon">✨</span>
+                <div>
+                    <h2 id="totalCount">0</h2>
+                    <p>Total skills</p>
+                </div>
+            </div>
+            <a href="messages.html" class="btn">💬 Chat</a>
+
+        </section>
+
+        <!-- Add Skill Form -->
+        <section class="add-skill-card">
+            <div class="card-heading">
+                <div>
+                    <p class="section-label">GROW YOUR COLLECTION</p>
+                    <h2>Add a new skill</h2>
+                    <p>Have something to share or something new to explore?</p>
+                </div>
+                <span class="heading-emoji">💜</span>
+            </div>
+
+            <form id="skillForm">
+                <div class="skill-form-grid">
+
+                    <!-- Skill Name -->
+                    <div class="form-group">
+                        <label for="skillName">Skill name</label>
+                        <input
+                            type="text"
+                            id="skillName"
+                            placeholder="e.g. Java, Photography, Guitar"
+                            maxlength="50"
+                            required
+                        >
+                    </div>
+
+                    <!-- Skill Type -->
+                    <div class="form-group">
+                        <label for="skillType">I want to...</label>
+                        <select id="skillType" required>
+                            <option value="teach">Teach this skill</option>
+                            <option value="learn">Learn this skill</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="skillDescription">Short description (optional)</label>
+                    <textarea
+                        id="skillDescription"
+                        placeholder="Tell others a little about your experience or learning goal..."
+                        rows="3"
+                        maxlength="200"
+                    ></textarea>
+                </div>
+
+                <p id="skillMessage" class="skill-message" aria-live="polite"></p>
+
+                <button type="submit" class="btn btn-primary">
+                    + Add Skill
+                </button>
+            </form>
+        </section>
+
+        <!-- Skills List -->
+        <section class="my-skills-section">
+
+            <!-- Search and Filter -->
+            <div class="skills-list-heading">
+                <div>
+                    <p class="section-label">YOUR PERSONAL LIBRARY</p>
+                    <h2>My skills</h2>
+                </div>
+
+                <input
+                    type="search"
+                    id="skillSearch"
+                    class="skill-search"
+                    placeholder="Search your skills..."
+                    aria-label="Search your skills"
+                >
+            </div>
+
+            <div class="skill-filters">
+                <button class="filter-btn active" data-filter="all">All skills</button>
+                <button class="filter-btn" data-filter="teach">Teaching</button>
+                <button class="filter-btn" data-filter="learn">Learning</button>
+            </div>
+
+            <!-- JavaScript adds skill cards here -->
+            <div class="skills-grid" id="skillsGrid"></div>
+
+            <!-- Empty State -->
+            <div class="empty-skills" id="emptySkills">
+                <span>🪴</span>
+                <h3>Your skill garden is waiting!</h3>
+                <p>Add your first skill above and start building your collection.</p>
+            </div>
+
+        </section>
+
+        <!-- Bottom Encouragement -->
+        <section class="skills-footer-card">
+            <span>💡</span>
+            <div>
+                <h3>Every expert was once a beginner.</h3>
+                <p>SkillSwap is about sharing what you know and being curious about what you don't.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Made with 💜 for curious minds · SkillSwap</p>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="js/main.js"></script>
+    <script src="js/skills.js"></script>
+</body>
+</html>
