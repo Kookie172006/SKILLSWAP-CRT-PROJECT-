@@ -1,443 +1,247 @@
-// =========================
-<<<<<<< HEAD
-// REVIEW DATA AND SETUP
-// =========================
-
-const reviewForm = document.getElementById("reviewForm");
-const reviewsList = document.getElementById("reviewsList");
-const reviewFilter = document.getElementById("reviewFilter");
-const reviewMessage = document.getElementById("reviewMessage");
-const ratingHint = document.getElementById("ratingHint");
-const ratingButtons = document.querySelectorAll(".rating-star");
-
-let selectedRating = 0;
-let reviews = JSON.parse(
-    localStorage.getItem("skillswap-reviews")
-) || [];
-
-// =========================
-// STAR RATING PICKER
-// =========================
-
-const ratingDescriptions = {
-    1: "1 star — Needs improvement",
-    2: "2 stars — Fair experience",
-    3: "3 stars — Good experience",
-    4: "4 stars — Great experience",
-    5: "5 stars — Excellent experience!"
-};
-
-function updateRatingPicker() {
-    ratingButtons.forEach(button => {
-        const rating = Number(button.dataset.rating);
-
-        button.classList.toggle("selected", rating <= selectedRating);
-        button.setAttribute(
-            "aria-pressed",
-            String(rating === selectedRating)
-        );
-    });
-
-    ratingHint.textContent = selectedRating
-        ? ratingDescriptions[selectedRating]
-        : "Select a star rating";
-}
-
-ratingButtons.forEach(button => {
-    button.addEventListener("click", function () {
-        selectedRating = Number(this.dataset.rating);
-        updateRatingPicker();
-=======
-// API SETUP & URL PARAMS
-// =========================
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "https://skillswap-crt-project.onrender.com";
 const token = localStorage.getItem("skillswap-token");
 
-// Get URL parameters (passed automatically from sessions.js when marked complete)
 const urlParams = new URLSearchParams(window.location.search);
-const urlSessionId = urlParams.get('sessionId');
+const urlSessionId = urlParams.get("sessionId");
 
-// DOM Elements
-const reviewForm = document.getElementById('reviewForm');
-const ratingStars = document.querySelectorAll('.rating-star');
-const reviewPartnerInput = document.getElementById('reviewPartner');
-const reviewSkillInput = document.getElementById('reviewSkill');
-const reviewCommentInput = document.getElementById('reviewComment');
-const reviewMessage = document.getElementById('reviewMessage');
-const reviewsList = document.getElementById('reviewsList');
-const emptyReviews = document.getElementById('emptyReviews');
-const reviewFilter = document.getElementById('reviewFilter');
+const reviewForm = document.getElementById("reviewForm");
+const ratingStars = document.querySelectorAll(".rating-star");
+const reviewCommentInput = document.getElementById("reviewComment");
+const reviewMessage = document.getElementById("reviewMessage");
+const reviewsList = document.getElementById("reviewsList");
+const emptyReviews = document.getElementById("emptyReviews");
+const reviewFilter = document.getElementById("reviewFilter");
+const ratingHint = document.getElementById("ratingHint");
 
 let currentRating = 0;
 let allReviews = [];
 
-// =========================
-// STAR RATING LOGIC
-// =========================
 ratingStars.forEach(star => {
-    star.addEventListener('click', (e) => {
-        // Remove active state from all stars
-        ratingStars.forEach(s => {
-            s.classList.remove('active');
-            s.setAttribute('aria-pressed', 'false');
+    star.addEventListener("click", () => {
+        currentRating = Number(star.dataset.rating);
+
+        ratingStars.forEach(item => {
+            const selected =
+                Number(item.dataset.rating) <= currentRating;
+
+            item.classList.toggle("active", selected);
+            item.classList.toggle("selected", selected);
+            item.setAttribute("aria-pressed", String(selected));
         });
-        
-        // Add active state up to the clicked star
-        currentRating = parseInt(e.target.dataset.rating);
-        for (let i = 0; i < currentRating; i++) {
-            ratingStars[i].classList.add('active');
-            ratingStars[i].setAttribute('aria-pressed', 'true');
+
+        if (ratingHint) {
+            ratingHint.style.color = "var(--muted)";
+            ratingHint.textContent =
+                `${currentRating} star${currentRating === 1 ? "" : "s"} selected`;
         }
-        
-        // Clear warning message if user clicks a star
-        document.getElementById('ratingHint').style.color = "inherit";
->>>>>>> origin/member4-communication
     });
 });
 
-// =========================
-<<<<<<< HEAD
-// SAVE REVIEWS
-// =========================
+function showFeedback(message, isError = false) {
+    if (!reviewMessage) return;
 
-function saveReviews() {
-    localStorage.setItem("skillswap-reviews", JSON.stringify(reviews));
+    reviewMessage.textContent = message;
+    reviewMessage.style.color = isError ? "#d94848" : "var(--primary)";
 }
 
-// =========================
-// FORMAT DATES
-// =========================
+function updateStats() {
+    const totalElement = document.getElementById("totalReviews");
+    const averageElement = document.getElementById("averageRating");
+    const starsElement = document.getElementById("averageStars");
 
-function formatReviewDate(dateString) {
-    const date = new Date(dateString);
-
-    if (Number.isNaN(date.getTime())) {
-        return "Date unavailable";
-    }
-
-    return date.toLocaleDateString("en-IN", {
-        day: "numeric",
-        month: "short",
-        year: "numeric"
-    });
-}
-
-// =========================
-// UPDATE REVIEW STATISTICS
-// =========================
-
-function updateReviewStats() {
-    const total = reviews.length;
+    const total = allReviews.length;
 
     const average = total
-        ? reviews.reduce((sum, review) => sum + review.rating, 0) / total
+        ? allReviews.reduce((sum, review) => sum + Number(review.rating), 0) / total
         : 0;
 
-    document.getElementById("totalReviews").textContent = total;
-    document.getElementById("averageRating").textContent = average.toFixed(1);
+    if (totalElement) {
+        totalElement.textContent = total;
+    }
 
-    const roundedRating = Math.round(average);
+    if (averageElement) {
+        averageElement.textContent = average.toFixed(1);
+    }
 
-    document.getElementById("averageStars").textContent =
-        "★".repeat(roundedRating) + "☆".repeat(5 - roundedRating);
+    if (starsElement) {
+        const rounded = Math.round(average);
+        starsElement.textContent =
+            "★".repeat(rounded) + "☆".repeat(5 - rounded);
+    }
 }
 
-// =========================
-// RENDER REVIEW CARDS
-// =========================
-
 function renderReviews() {
-    reviewsList.innerHTML = "";
+    if (!reviewsList || !reviewFilter) return;
+
+    reviewsList.replaceChildren();
 
     const filter = reviewFilter.value;
 
-    const filteredReviews = reviews
-        .filter(review => filter === "All" ||
-            review.rating === Number(filter))
-        .sort((a, b) => new Date(b.date) - new Date(a.date));
+    const filteredReviews = allReviews.filter(review => {
+        return filter === "All" ||
+            Number(review.rating) === Number(filter);
+    });
 
-    document.getElementById("emptyReviews").hidden =
-        filteredReviews.length !== 0;
+    if (emptyReviews) {
+        emptyReviews.hidden = filteredReviews.length !== 0;
+    }
 
     filteredReviews.forEach(review => {
         const card = document.createElement("article");
         card.className = "review-card";
 
-        const top = document.createElement("div");
-        top.className = "review-card-top";
-
-        const reviewerInfo = document.createElement("div");
-        reviewerInfo.className = "reviewer-info";
-
-        const avatar = document.createElement("span");
-        avatar.className = "reviewer-avatar";
-        avatar.textContent = review.partner.trim().charAt(0).toUpperCase();
+        const header = document.createElement("div");
+        header.className = "review-header";
 
         const info = document.createElement("div");
 
         const name = document.createElement("h3");
-        name.textContent = review.partner;
+        name.className = "reviewer-name";
+        name.textContent =
+            review.reviewerName ||
+            review.reviewer?.name ||
+            "Community Member";
 
         const skill = document.createElement("p");
-        skill.textContent = `Skill session: ${review.skill}`;
+        skill.textContent = review.skillName
+            ? `Skill session: ${review.skillName}`
+            : "SkillSwap session";
 
         info.append(name, skill);
-        reviewerInfo.append(avatar, info);
 
-        const stars = document.createElement("span");
-        stars.className = "review-rating";
-        stars.setAttribute("aria-label", `${review.rating} out of 5 stars`);
-        stars.textContent =
-            "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
+        const rating = document.createElement("span");
+        rating.className = "review-rating";
+        rating.setAttribute(
+            "aria-label",
+            `${review.rating} out of 5 stars`
+        );
+        rating.textContent =
+            "★".repeat(Number(review.rating)) +
+            "☆".repeat(5 - Number(review.rating));
 
-        top.append(reviewerInfo, stars);
-        card.appendChild(top);
+        header.append(info, rating);
+        card.appendChild(header);
 
         if (review.comment) {
             const comment = document.createElement("p");
-            comment.className = "review-comment";
+            comment.className = "review-text";
             comment.textContent = review.comment;
             card.appendChild(comment);
         }
 
         const date = document.createElement("span");
         date.className = "review-date";
-        date.textContent = formatReviewDate(review.date);
+
+        const dateValue = review.createdAt || review.date;
+        const parsedDate = dateValue ? new Date(dateValue) : null;
+
+        date.textContent =
+            parsedDate && !Number.isNaN(parsedDate.getTime())
+                ? parsedDate.toLocaleDateString("en-IN", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric"
+                })
+                : "Date unavailable";
 
         card.appendChild(date);
         reviewsList.appendChild(card);
     });
 
-    updateReviewStats();
+    updateStats();
 }
 
-// =========================
-// SUBMIT A REVIEW
-// =========================
+async function loadReviews() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/reviews`);
+        const data = await response.json();
 
-reviewForm.addEventListener("submit", function (event) {
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Could not load reviews.");
+        }
+
+        allReviews = Array.isArray(data.reviews) ? data.reviews : [];
+        renderReviews();
+    } catch (error) {
+        console.error("Error loading reviews:", error);
+
+        if (emptyReviews) {
+            emptyReviews.hidden = false;
+        }
+    }
+}
+
+reviewFilter?.addEventListener("change", renderReviews);
+
+reviewForm?.addEventListener("submit", async event => {
     event.preventDefault();
 
-    const partner = document.getElementById("reviewPartner").value.trim();
-    const skill = document.getElementById("reviewSkill").value.trim();
-    const comment = document.getElementById("reviewComment").value.trim();
-
-    if (!partner || !skill) {
-        showReviewMessage("Please enter your partner and the skill.", true);
+    if (!token) {
+        showFeedback("Please log in to submit a review.", true);
         return;
     }
 
-    if (selectedRating < 1 || selectedRating > 5) {
-        showReviewMessage("Please select a star rating first.", true);
-        return;
-    }
-
-    // Demo-only duplicate check for the same partner and skill.
-    const duplicate = reviews.some(review =>
-        review.partner.toLowerCase() === partner.toLowerCase() &&
-        review.skill.toLowerCase() === skill.toLowerCase()
-    );
-
-    if (duplicate) {
-        showReviewMessage(
-            "A review for this partner and skill already exists in this demo.",
+    if (!urlSessionId) {
+        showFeedback(
+            "Please open the review form from a completed session.",
             true
         );
         return;
     }
 
-    const newReview = {
-        id: Date.now().toString(),
-        partner,
-        skill,
-        rating: selectedRating,
-        comment,
-        date: new Date().toISOString()
-    };
+    if (currentRating < 1 || currentRating > 5) {
+        showFeedback("Please select a star rating.", true);
 
-    reviews.push(newReview);
-    saveReviews();
-
-    reviewForm.reset();
-    selectedRating = 0;
-    updateRatingPicker();
-
-    reviewFilter.value = "All";
-    showReviewMessage("Your review has been added! Thanks for sharing 💜", false);
-
-    renderReviews();
-});
-
-// =========================
-// FORM FEEDBACK
-// =========================
-
-function showReviewMessage(message, isError) {
-=======
-// FETCH & DISPLAY REVIEWS
-// =========================
-async function loadReviews() {
-    try {
-        const response = await fetch(`${API_BASE_URL}/api/reviews`);
-        const data = await response.json();
-        
-        if (data.success) {
-            allReviews = data.reviews;
-            renderReviews();
-            updateStats();
+        if (ratingHint) {
+            ratingHint.style.color = "#d94848";
         }
-    } catch (error) {
-        console.error("Error loading reviews:", error);
-    }
-}
 
-function renderReviews() {
-    reviewsList.innerHTML = "";
-    const filter = reviewFilter.value;
-    
-    // Filter logic
-    const filteredReviews = allReviews.filter(review => {
-        if (filter === "All") return true;
-        return review.rating === parseInt(filter);
-    });
-
-    if (filteredReviews.length === 0) {
-        emptyReviews.hidden = false;
-        return;
-    }
-    
-    emptyReviews.hidden = true;
-
-    filteredReviews.forEach(review => {
-        const card = document.createElement('article');
-        card.className = 'review-card';
-        
-        // Convert number rating to star string (e.g. 4 -> "★★★★☆")
-        const filledStars = '★'.repeat(review.rating);
-        const emptyStars = '☆'.repeat(5 - review.rating);
-        
-        // Format Date
-        const reviewDate = new Date(review.createdAt).toLocaleDateString(undefined, { 
-            year: 'numeric', month: 'short', day: 'numeric' 
-        });
-
-        card.innerHTML = `
-            <div class="review-header">
-                <div>
-                    <h3 class="reviewer-name">Community Member</h3>
-                    <div class="review-rating" aria-label="${review.rating} out of 5 stars">
-                        filledStars{emptyStars}
-                    </div>
-                </div>
-                <span class="review-date">${reviewDate}</span>
-            </div>
-            <p class="review-text">${review.comment || 'No comment provided.'}</p>
-        `;
-        
-        reviewsList.appendChild(card);
-    });
-}
-
-function updateStats() {
-    if (allReviews.length === 0) return;
-    
-    // Total Reviews
-    document.getElementById('totalReviews').textContent = allReviews.length;
-    
-    // Average Rating
-    const sum = allReviews.reduce((acc, curr) => acc + curr.rating, 0);
-    const avg = (sum / allReviews.length).toFixed(1);
-    document.getElementById('averageRating').textContent = avg;
-    
-    // Visual Average Stars
-    const roundedAvg = Math.round(avg);
-    document.getElementById('averageStars').textContent = '★'.repeat(roundedAvg) + '☆'.repeat(5 - roundedAvg);
-}
-
-// Re-render when dropdown changes
-reviewFilter.addEventListener('change', renderReviews);
-
-// =========================
-// SUBMIT REVIEW
-// =========================
-reviewForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    if (!token) {
-        showFeedback("Please log in to submit a review.", true);
-        return;
-    }
-    
-    if (!urlSessionId) {
-        showFeedback("Reviews must be submitted directly from a completed calendar session.", true);
-        return;
-    }
-
-    if (currentRating === 0) {
-        document.getElementById('ratingHint').style.color = "#d94848";
         return;
     }
 
     const payload = {
         sessionId: urlSessionId,
         rating: currentRating,
-        comment: reviewCommentInput.value.trim()
+        comment: reviewCommentInput
+            ? reviewCommentInput.value.trim()
+            : ""
     };
 
     try {
         const response = await fetch(`${API_BASE_URL}/api/reviews`, {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
             },
             body: JSON.stringify(payload)
         });
-        
+
         const data = await response.json();
-        
-        if (response.ok || data.success) {
-            showFeedback("Review submitted successfully! Thank you.", false);
-            
-            // Reset Form UI
-            reviewForm.reset();
-            currentRating = 0;
-            ratingStars.forEach(s => {
-                s.classList.remove('active');
-                s.setAttribute('aria-pressed', 'false');
-            });
-            
-            loadReviews(); // Refresh the list
-        } else {
-            // Usually hits if the session isn't marked complete or they already reviewed it
-            showFeedback(data.message || "Failed to submit review.", true);
+
+        if (!response.ok || !data.success) {
+            throw new Error(data.message || "Failed to submit review.");
         }
+
+        showFeedback("Review submitted successfully. Thank you!");
+
+        reviewForm.reset();
+        currentRating = 0;
+
+        ratingStars.forEach(star => {
+            star.classList.remove("active", "selected");
+            star.setAttribute("aria-pressed", "false");
+        });
+
+        if (ratingHint) {
+            ratingHint.textContent = "Select a star rating";
+            ratingHint.style.color = "var(--muted)";
+        }
+
+        await loadReviews();
     } catch (error) {
-        showFeedback("Network error. Please try again.", true);
+        showFeedback(error.message || "Network error. Please try again.", true);
     }
 });
 
-function showFeedback(message, isError) {
->>>>>>> origin/member4-communication
-    reviewMessage.textContent = message;
-    reviewMessage.style.color = isError ? "#d94848" : "var(--primary)";
-}
-
-<<<<<<< HEAD
-// =========================
-// FILTER REVIEWS
-// =========================
-
-reviewFilter.addEventListener("change", renderReviews);
-
-// =========================
-// INITIAL PAGE RENDER
-// =========================
-
-updateRatingPicker();
-renderReviews();
-
-=======
-// Start Script
 loadReviews();
->>>>>>> origin/member4-communication
