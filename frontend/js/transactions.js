@@ -1,5 +1,5 @@
 
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "https://skillswap-crt-project.onrender.com";
 
 const transactionList = document.getElementById("transactionList");
 const emptyTransactions = document.getElementById("emptyTransactions");
