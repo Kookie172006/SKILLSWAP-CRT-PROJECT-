@@ -1,5 +1,5 @@
 
-const API_BASE_URL = "https://skillswap-crt-project.onrender.com";
+const API_BASE_URL = "https://skillswap-crt-project-backend.onrender.com";
 
 const searchInput = document.getElementById("searchInput");
 const searchButton = document.getElementById("searchButton");

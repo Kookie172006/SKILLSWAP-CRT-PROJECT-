@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://skillswap-crt-project.onrender.com";
+const API_BASE_URL = "https://skillswap-crt-project-backend.onrender.com";
 
 const skillForm = document.getElementById("skillForm");
 const skillName = document.getElementById("skillName");
